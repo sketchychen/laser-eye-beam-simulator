@@ -16,10 +16,14 @@ var scene = document.getElementsByTagName("a-scene")[0];
 
 var testSphere = document.createElement("a-sphere");
 
+// make an enemy and set it off {
 var pacman = document.createElement("a-cylinder");
 pacman.setAttribute("position", "-3 2 -6");
 pacman.setAttribute("color", "yellow");
 pacman.setAttribute("rotation", "90 0 0");
+pacman.setAttribute("theta-start", "130");
+pacman.setAttribute("theta-length", "280");
+pacman.setAttribute("side", "double");
 
 scene.appendChild(pacman);
 
@@ -29,5 +33,5 @@ var bloop = setInterval(function() {
   xyzString = XYZ.join(' ');
   pacman.setAttribute("position", xyzString);
   XYZ[0]++
-  console.log(XYZ);
 }, 1000);
+// }
