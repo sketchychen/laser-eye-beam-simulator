@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Hello, World! - A-Frame</title>
+    <meta name="description" content="Hello, World! - A-Frame">
+    <script src="https://aframe.io/releases/0.3.2/aframe.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script> -->
+  </head>
+  <body>
+    <a-scene>
+      <a-assets>
+        <img id="metal_grill" src="assets/metal_grill.jpg">
+        <img id="city" src="assets/city.jpg">
+      </a-assets>
+
+      <a-sky id="image-360" radius="20" src="#city"></a-sky>
+
+      <!-- New lights. -->
+      <!-- <a-light type="spot" color="#333" position="-20 0 0" look-at="a-box"></a-light>
+      <a-light type="point" color="#AAA" position="0 5 0"></a-light> -->
+
+      <a-box id="boxy" depth=1 position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
+      <a-box id="boxyhart" position="-2.25 0.5 -3" rotation="0 70 0" color="#4CC3D9" src="#metal_grill" scale-on-click="to: 0.5 0.5 0.5">
+        <a-animation attribute="rotation" begin="click"  to="0 360 0"></a-animation>
+      </a-box>
+      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
+      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+      <a-sky color="#ECECEC"></a-sky>
+
+      <a-camera position="0 1.8 0">
+        <a-cursor color="#549234"></a-cursor>
+      </a-camera>
+    </a-scene>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
