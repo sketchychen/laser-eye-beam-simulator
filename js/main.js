@@ -32,6 +32,7 @@ var XYZ = [-2, 2, -4];
 var bloop = setInterval(function() {
   xyzString = XYZ.join(' ');
   pacman.setAttribute("position", xyzString);
+  console.log(XYZ);
   XYZ[0]++
 }, 1000);
 // }
