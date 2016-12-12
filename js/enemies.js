@@ -32,7 +32,7 @@ function randomSpawnPoint(radius, theta_range, phi_range) {
   // returns array of length 3
   // for upper hemisphere:
     // θ ∈ [0, 2π), φ ∈ [0, π/2]
-    // theta_range = [0, 2*Math.PI)]
+    // theta_range = [0, 2*Math.PI]
     // phi_range = [0, Math.PI/2]
   var theta = randRange(theta_range[0], theta_range[1]);
   var phi = randRange(phi_range[0], phi_range[1]);
@@ -40,7 +40,33 @@ function randomSpawnPoint(radius, theta_range, phi_range) {
   return spawnXYZ;
 }
 
-function assignClassCharacteristics(element) {
+// consider randomly generating spawn point
+// with each creation of enemy element
+// instead of separately, all at once, as a list
+// benefit of list: debugging
+function spawnPointList(num_of_points, radius, theta_range, phi_range) {
+  var list_of_xyz = [];
+  var spawnXYZ;
+  for (var i=0; i<num_of_points; i++) {
+    spawnXYZ = randomSpawnPoint(radius, theta_range, phi_range);
+    list_of_xyz.push(spawnXYZ);
+  }
+  return list_of_xyz;
+}
+
+
+function assignEnemyAttributes(element, radius, theta_range, phi_range) {
+  /* APPEARANCE */
+  element.setAttribute("color", "green");
+  element.setAttribute("rotation", "0 0 0");
+
+  /* STARTING POINT */
+  var spawnXYZ = randomSpawnPoint(radius, theta_range, phi_range);
+  // turn into string for attribute value assignment
+  var spawnXYZ_str = spawnXYZ.join(" ");
+  element.setAttribute("position", spawnXYZ_str);
+
+  /* ON CLICK */
   element.setAttribute("onclick", "tallyScore();");
 }
 
