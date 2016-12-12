@@ -1,8 +1,8 @@
 /** DOM SHIT **/
 /* ENEMY SPAWNING */
 // uses sphericalToCartesian, randRange
-// GRUNTS represent enemies with the most basic movements (moving directly toward player)
-// ORBITERS represent enemies that both orbit and move toward player.
+// PAWNS represent enemies with the most basic movements (moving directly toward player)
+// ORBITERS represent enemies that orbit while moving toward player.
 // if time, consider--
   // enemy "explosion" animation
   // consider staggered spawning
@@ -11,22 +11,38 @@
   // player damage animation
   // enemy HP
 
-// enemy entity "GRUNT"
+// enemy entity "PAWN"
 // <a-entity> to which to append basic type enemy
-var GRUNTS = document.getElementById("enemy-grunts");
+var PAWN_ENEMIES = document.getElementById("enemy-pawns");
 // // save ORBITERS for later
 // var ORBITERS = document.getElementById("enemy-orbiters");
 
+var pawns = spawnPawns(20, 30, [0, 2*Math.PI], [Math.PI/4, Math.PI/2]);
 
-// create different types of enemies later
-function createEnemyElement() {
-  // creates a single enemy element with enemy class
-  // appends it to respective enemy a-entity (for organized HTML structure)
-  var box = document.createElement("a-box");
-  box.className = "enemy";
-  GRUNTS.appendChild(box);
+function spawnPawns(number_of_pawns, radius, theta_range, phi_range) {
+  var pawns = [];
+  var spawnXYZ;
+  for (var i=0; i<number_of_pawns; i++){
+    pawns[i] = createEnemyElement("pawn", "box", "1", "white");
+    spawnXYZ = randomSpawnPoint(30, theta_range, phi_range);
+    pawns[i].setAttribute("position", spawnXYZ.join(" "));
+    PAWN_ENEMIES.appendChild(pawns[i]);
+  }
+  return pawns;
 }
 
+// set enemy's basic appearance
+function createEnemyElement(type_name, shape, depth, color) {
+  // creates a single enemy element with enemy class
+  // appends it to respective enemy a-entity (for organized HTML structure)
+  var element = document.createElement("a-"+shape);
+  element.className = type_name;
+  element.setAttribute("depth", depth);
+  element.setAttribute("color", color);
+  return element;
+}
+
+// randomize coordinates within given ranges
 function randomSpawnPoint(radius, theta_range, phi_range) {
   // radius: int or float, theta_range, phi_range: array of length 2
   // returns array of length 3
