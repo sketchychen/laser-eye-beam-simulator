@@ -1,4 +1,4 @@
-/** DOM SHIT **/
+/** DOM MANIPULATION **/
 /* ENEMY SPAWNING */
 // uses sphericalToCartesian, randRange
 // PAWNS represent enemies with the most basic movements (moving directly toward player)
@@ -11,14 +11,18 @@
   // player damage animation
   // enemy HP
 
-// enemy entity "PAWN"
-// <a-entity> to which to append basic type enemy
-var PAWN_ENEMIES = document.getElementById("enemy-pawns");
-// // save ORBITERS for later
-// var ORBITERS = document.getElementById("enemy-orbiters");
+// collecting <a-entity>'s to which to append enemies of respective type
+// enemy entity for "PAWN"
+var PAWN_ENTITY = document.getElementById("enemy-pawns");
+// // enemy entity for "ORBITERS"
+// var ORBITER_ENTITY = document.getElementById("enemy-orbiters");
 
-var pawns = spawnPawns(20, 30, [0, 2*Math.PI], [Math.PI/4, Math.PI/2]);
+// actual list of PAWNS for iterating through
+var PAWNS = spawnPawns(20, 30, [0, 2*Math.PI], [Math.PI/4, Math.PI/2]);
+advancePawns(PAWNS);
 
+// generate pawns of shared appearance and random starting positions
+// and make them appear in the DOM/scene
 function spawnPawns(number_of_pawns, radius, theta_range, phi_range) {
   var pawns = [];
   var spawnXYZ;
@@ -26,7 +30,7 @@ function spawnPawns(number_of_pawns, radius, theta_range, phi_range) {
     pawns[i] = createEnemyElement("pawn", "box", "1", "white");
     spawnXYZ = randomSpawnPoint(30, theta_range, phi_range);
     pawns[i].setAttribute("position", spawnXYZ.join(" "));
-    PAWN_ENEMIES.appendChild(pawns[i]);
+    PAWN_ENTITY.appendChild(pawns[i]);
   }
   return pawns;
 }
@@ -56,44 +60,57 @@ function randomSpawnPoint(radius, theta_range, phi_range) {
   return spawnXYZ;
 }
 
-// consider randomly generating spawn point
-// with each creation of enemy element
-// instead of separately, all at once, as a list
-// benefit of list: debugging
-function spawnPointList(num_of_points, radius, theta_range, phi_range) {
-  var list_of_xyz = [];
-  var spawnXYZ;
-  for (var i=0; i<num_of_points; i++) {
-    spawnXYZ = randomSpawnPoint(radius, theta_range, phi_range);
-    list_of_xyz.push(spawnXYZ);
-  }
-  return list_of_xyz;
-}
+// // consider randomly generating spawn point
+// // with each creation of enemy element
+// // instead of separately, all at once, as a list
+// // benefit of list: debugging
+// function spawnPointList(num_of_points, radius, theta_range, phi_range) {
+//   var list_of_xyz = [];
+//   var spawnXYZ;
+//   for (var i=0; i<num_of_points; i++) {
+//     spawnXYZ = randomSpawnPoint(radius, theta_range, phi_range);
+//     list_of_xyz.push(spawnXYZ);
+//   }
+//   return list_of_xyz;
+// }
 
 
-function assignEnemyAttributes(element, radius, theta_range, phi_range) {
-  /* APPEARANCE */
-  element.setAttribute("color", "green");
-  element.setAttribute("rotation", "0 0 0");
-
-  /* STARTING POINT */
-  var spawnXYZ = randomSpawnPoint(radius, theta_range, phi_range);
-  // turn into string for attribute value assignment
-  var spawnXYZ_str = spawnXYZ.join(" ");
-  element.setAttribute("position", spawnXYZ_str);
-
-  /* ON CLICK */
-  element.setAttribute("onclick", "tallyScore();");
-}
+// function assignEnemyAttributes(element, radius, theta_range, phi_range) {
+//   /* ON CLICK */
+//   element.setAttribute("onclick", "tallyScore();");
+// }
 
 
 /* ENEMY MOVEMENT */
-// uses vector, distance, unitVector, addUnitVector
+// uses vector, distance, unitVector, addVector
 // movement done on interval
+function positionToArray(element) {
+  var xyz = [];
+  xyz[0] = element.getAttribute("position").x;
+  xyz[1] = element.getAttribute("position").y;
+  xyz[2] = element.getAttribute("position").z;
+  return xyz;
+}
 
 
-/** MATH SHIT **/
-/* BASIC SPHERICAL MATHS */
+
+function advancePawns(pawns) {
+  pawns.forEach(function(element) {
+    var xyz = positionToArray(element);
+    var unit = unitVector(xyz, [0, 0, 0]);
+    console.log(unit);
+    setInterval(function() {
+      xyz = addVector(xyz, unit, 1);
+      element.setAttribute("position", xyz.join(" "));
+    }, 1000);
+
+  });
+}
+
+
+
+/** PURE MATHEMATICS/GEOMETRY/TRIG **/
+/* BASIC SPHERICAL MATH */
 function sphericalToCartesian(radius, theta, phi) {
   // radius, theta, phi: int or float
   // returns an array of length 3
@@ -118,9 +135,9 @@ function vector(xyz1, xyz2) {
   // xyz1, xyz2: arrays of length 3
   // returns an array of length 3
   // calculates vector from point xyz1 to xyz2
-  var dx = (xyz1[0]-xyz2[0]); // difference between the two x's
-  var dy = (xyz1[1]-xyz2[1]); // difference between the two y's
-  var dz = (xyz1[2]-xyz2[2]); // difference between the two z's
+  var dx = (xyz2[0]-xyz1[0]); // difference between the two x's
+  var dy = (xyz2[1]-xyz1[1]); // difference between the two y's
+  var dz = (xyz2[2]-xyz1[2]); // difference between the two z's
   return [dx, dy, dz];
 }
 
@@ -143,9 +160,9 @@ function unitVector(xyz1, xyz2) {
   return unit;
 }
 
-function addUnitVector(curr_xyz, unit_vector, magnitude) {
+function addVector(curr_xyz, unit_vector, magnitude) {
   // curr_xyz, unit_vector: arrays of length 3
-  // magnitude: scalar
+  // magnitude: scalar, int or float
   // returns an array of length 3
   // adds unitVector * magnitude to a coordinate
   var next_xyz = [];
