@@ -1,5 +1,5 @@
 /** ------------------------- PLAYER FUNCTIONALITY ------------------------- **/
-// PLAYER TURN AND SCORING
+// PLAYER SCOREKEEPING
 // PLAYER CURSOR TARGETING
 
 // if time, consider--
@@ -10,17 +10,29 @@
 
 var ORIGIN = [0, 0, 0];
 var SHIELD_RADIUS = 3;
-var SCORE = 0;
-var NUM_OF_PLAYERS
+var NUM_OF_PLAYERS = 2;
+var CURRENT_PLAYER = 0;
+var SCORES = new Array(NUM_OF_PLAYERS+1).join('0').split('').map(parseFloat);
 
-
-/* -------------------------------------------------- PLAYER TURN AND SCORING */
-function tallyScore() {
-  SCORE++;
+/* ------------------------------------------------------ PLAYER SCOREKEEPING */
+function arrayOfZeroes(array_length) {
+  return new Array(array_length+1).join('0').split('').map(parseFloat);
 }
 
-function clearScore() {
-  SCORE = 0;
+function zeroScores() {
+  SCORES = new Array(NUM_OF_PLAYERS+1).join('0').split('').map(parseFloat);
+}
+
+function tallyScore(player) {
+  SCORES[player]++;
+  console.log(SCORES);
+}
+
+function nextPlayer(current) { // in case of multiple players
+  // local variables used for readability
+  var next = current+1; // next player
+  next %= NUM_OF_PLAYERS; // cycle back down to 0 when incrementer passes NUM_OF_PLAYERS
+  return next;
 }
 
 /* -------------------------------------------------- PLAYER CURSOR TARGETING */

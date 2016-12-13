@@ -17,7 +17,7 @@ var PAWN_ENTITY = document.getElementById("enemy-pawns");
 // var ORBITER_ENTITY = document.getElementById("enemy-orbiters");
 
 // global vars for actual list of PAWNS to iterate through
-var NUM_OF_PAWNS = 10;
+var NUM_OF_PAWNS = 5;
 var PAWNS_LEFT = NUM_OF_PAWNS; // redundant?
 var SPAWN_RADIUS = 30;
 var THETA_RANGE = [0, 2*Math.PI];
@@ -155,7 +155,7 @@ function takeDamage(element) {
   setTimeout(function() {
     clearInterval(flash); // stop thing
     removeElement(element); // enemy was eliminated, remove from DOM
-    tallyScore(); // mark one for the player
+    tallyScore(CURRENT_PLAYER); // mark one for the player
     PAWNS_LEFT--; // keep track of how many are left
   }, flash_pulse*7);
 

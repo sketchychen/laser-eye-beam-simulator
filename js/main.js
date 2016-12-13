@@ -48,7 +48,7 @@ AFRAME.registerComponent('collider-check', {
 
 
 
-function startRound(){
+function startRound() {
   /* HIDE MENU */
   toggleVisible(MENU_ENTITY);
 
@@ -57,5 +57,17 @@ function startRound(){
   advancePawns(PAWNS, COUNTDOWN, MOVEMENT_PULSE);
 
   /* PLAYER SET-UP */
+  
+}
+
+function endRound() {
+
+}
+
+function endGame() {
+
+}
+
+function newGame() {
 
 }
