@@ -59,7 +59,7 @@ function createEnemyElement(type_name, shape, depth, color, spawnXYZ, entity) {
   element.setAttribute("depth", depth);
   element.setAttribute("color", color);
   element.setAttribute("position", spawnXYZ.join(" "));
-  element.setAttribute("visible", "true");
+  element.setAttribute("visible", "true"); // later may be toggled
   entity.appendChild(element);
   return element;
 }
@@ -97,9 +97,11 @@ function advancePawns(pawns, countdown, step_pulse) {
     // sets interval for each pawn
     // moving pawn a step on each interval
 
-    setTimeout(function() {
+    setTimeout(function() { // possibly later set in own function that returns the timeout for a single element
       console.log("start");
-      element.setAttribute("onclick", "takeDamage(this)"); // able to take damage after countdown
+      // able to take damage after countdown, but not before
+      element.setAttribute("onclick", "takeDamage(this)");
+      // element.addEventListener("click", takeDamage);
       var movement = setInterval(function() { // begin movement
         stepPawnForward(element);
         if (shieldDetection(element)) {
@@ -132,12 +134,16 @@ function shieldDetection(element) {
 /** ENEMY ACTIONS/ONCLICK **/
 function takeDamage(element) {
   console.log(element);
+  element.removeAttribute("onclick");
+
   var flash_pulse = 300;
   var flash = flashDamage(element, flash_pulse);
+
   setTimeout(function() {
     clearInterval(flash);
     removeElement(element);
   }, flash_pulse*7);
+
 }
 
 function flashDamage(element, flash_pulse) {
