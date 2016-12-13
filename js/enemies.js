@@ -1,10 +1,5 @@
-/** DOM MANIPULATION **/
-/* ENEMY SPAWNING */
-// uses sphericalToCartesian, randRange
-// PAWNS represent enemies with the most basic movements (moving directly toward player)
-// ORBITERS represent enemies that orbit while moving toward player.
+/** DOM MANIPULATION FOR ENEMIES **/
 // if time, consider--
-  // enemy "explosion" animation
   // consider staggered spawning
   // bullet+collision physics
   // player HP
@@ -18,8 +13,16 @@ var PAWN_ENTITY = document.getElementById("enemy-pawns");
 // var ORBITER_ENTITY = document.getElementById("enemy-orbiters");
 
 // actual list of PAWNS for iterating through
-var PAWNS = spawnPawnsPartlyRandomly(20, 30, [0, 2*Math.PI], [Math.PI/4, Math.PI/2]);
-advancePawns(PAWNS, 5000, 1000);
+var NUMBER_OF_PAWNS = 10;
+var SPAWN_RADIUS = 30;
+var THETA_RANGE = [0, 2*Math.PI];
+var PHI_RANGE = [Math.PI/4, Math.PI/2];
+var PAWNS = spawnPawnsPartlyRandomly(NUMBER_OF_PAWNS, SPAWN_RADIUS, THETA_RANGE, PHI_RANGE);
+
+// setting up movement interval
+var COUNTDOWN = 5000;
+var MOVEMENT_PULSE = 1000;
+advancePawns(PAWNS, COUNTDOWN, MOVEMENT_PULSE);
 
 class Pawn {
   constructor(element) {
@@ -27,6 +30,11 @@ class Pawn {
     this.position = positionAttributeAsArray(element);
   }
 } // work on later
+
+/* ENEMY ELEMENT CREATION AND SPAWNING */
+// uses sphericalToCartesian, randRange from gamemath.js
+// PAWNS represent enemies with the most basic movements (moving directly toward player)
+// ORBITERS represent enemies that orbit while moving toward player.
 
 // generate pawns of shared appearance and random starting positions
 // and make them appear in the DOM/scene
@@ -142,6 +150,7 @@ function takeDamage(element) {
   setTimeout(function() {
     clearInterval(flash);
     removeElement(element);
+    tallyScore();
   }, flash_pulse*7);
 
 }
