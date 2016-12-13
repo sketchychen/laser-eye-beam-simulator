@@ -38,12 +38,17 @@
         </a-entity>
       </a-entity>
 
-      <a-entity id="crows-nest">
+      <a-entity id="player" collider-check>
+        <a-entity raycaster="objects: .collidable" position="0 -0.9 0" rotation="90 0 0"></a-entity>
+      </a-entity>
+      <a-entity class="collidable" geometry="primitive: box" position="1 0 0"></a-entity>
+
+      <!-- <a-entity id="crows-nest">
         <a-cone id="platform" position="0 0 0" radius-bottom="2", radius-top="1.5" height="0.5" src="#platform"></a-cone>
-        <a-sphere id="shield" position="0 0 0" rotation="90 0 0" radius="2" color="blue" side="double" opacity="0.4" src="#shield">
+        <a-sphere id="shield" position="0 0 0" rotation="90 0 0" radius="3" color="blue" side="double" opacity="0.4" src="#shield">
           <a-animation easing="linear" attribute="rotation" dur="100000" to="0 360 0" repeat="indefinite"></a-animation></a-animation>
         </a-sphere>
-      </a-entity>
+      </a-entity> -->
 
       <!-- <a-entity ground></a-entity> -->
 

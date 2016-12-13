@@ -10,7 +10,14 @@ AFRAME.registerComponent('scale-on-click', {
   }
 });
 
-
+AFRAME.registerComponent('collider-check', {
+  dependencies: ['raycaster'],
+  init: function () {
+    this.el.addEventListener('raycaster-intersected', function () {
+      console.log('Player hit something!');
+    });
+  }
+});
 
 // var sphere = document.getElementsByTagName("a-sphere")[0];
 //

@@ -17,17 +17,17 @@ var PAWN_ENTITY = document.getElementById("enemy-pawns");
 // // enemy entity for "ORBITERS"
 // var ORBITER_ENTITY = document.getElementById("enemy-orbiters");
 var ORIGIN = [0, 0, 0];
+var SHIELD_RADIUS = 3;
 // actual list of PAWNS for iterating through
 var PAWNS = spawnPawnsPartlyRandomly(20, 30, [0, 2*Math.PI], [Math.PI/4, Math.PI/2]);
-advancePawns(PAWNS);
+advancePawns(PAWNS, 5000, 1000);
 
 class Pawn {
   constructor(element) {
     this.element = element;
     this.position = positionAttributeAsArray(element);
   }
-}
-
+} // work on later
 
 // generate pawns of shared appearance and random starting positions
 // and make them appear in the DOM/scene
@@ -39,7 +39,6 @@ function spawnPawnsRandomly(number_of_pawns, radius, theta_range, phi_range) {
   }
   return pawns;
 }
-
 function spawnPawnsPartlyRandomly(number_of_pawns, radius, theta_range, phi_range) {
   var pawns = [];
   var theta = theta_range[0]; // usually starts at zero
@@ -51,7 +50,6 @@ function spawnPawnsPartlyRandomly(number_of_pawns, radius, theta_range, phi_rang
   }
   return pawns;
 }
-
 // set enemy's basic appearance
 function createEnemyElement(type_name, shape, depth, color, spawnXYZ, entity) {
   // creates a single enemy element with enemy class
@@ -61,10 +59,10 @@ function createEnemyElement(type_name, shape, depth, color, spawnXYZ, entity) {
   element.setAttribute("depth", depth);
   element.setAttribute("color", color);
   element.setAttribute("position", spawnXYZ.join(" "));
+  element.setAttribute("onclick", "takeDamage()");
   entity.appendChild(element);
   return element;
 }
-
 // randomize coordinates within given ranges
 function randomSpawnPoint(radius, theta_range, phi_range) {
   // radius: int or float, theta_range, phi_range: array of length 2
@@ -76,8 +74,6 @@ function randomSpawnPoint(radius, theta_range, phi_range) {
   spawnXYZ = sphericalToCartesian(radius, theta, phi);
   return spawnXYZ;
 }
-
-
 // randomize coordinates within given ranges
 function partlyRandomSpawnPoint(radius, theta, phi_range) {
   // radius, theta: int or float, phi_range: array of length 2
@@ -93,13 +89,32 @@ function partlyRandomSpawnPoint(radius, theta, phi_range) {
 
 // function assignEnemyAttributes(element, radius, theta_range, phi_range) {
 //   /* ON CLICK */
-//   element.setAttribute("onclick", "tallyScore();");
+//   element.setAttribute("onclick", "takeDamage();");
 // }
-
 
 /* ENEMY MOVEMENT */
 // uses vector, distance, unitVector, addVector
 // movement done on interval
+function advancePawns(pawns, countdown, step_time) {
+  // iterates through list of pawns once
+  pawns.forEach(function(element) {
+    // sets interval for each pawn
+    // moving pawn a step on each interval
+    setTimeout(function() {
+      console.log("start");
+      var movement = setInterval(function() {
+        stepPawnForward(element);
+        if (shieldDetection(element)) {
+            clearInterval(movement);
+            console.log("stopped moving");
+        };
+
+      }, step_time);
+    }, countdown);
+
+  });
+}
+
 function positionAttributeAsArray(element) {
   var xyz = [];
   xyz[0] = element.getAttribute("position").x;
@@ -107,42 +122,22 @@ function positionAttributeAsArray(element) {
   xyz[2] = element.getAttribute("position").z;
   return xyz;
 }
-
 function stepPawnForward(element) {
-  var xyz = positionAttributeAsArray(element);
-  var unit = unitVector(xyz, ORIGIN);
-  xyz = addVector(xyz, unit, 1);
-  element.setAttribute("position", xyz.join(" "));
+  var xyz = positionAttributeAsArray(element); // produces easier format of element's position
+  var unit = unitVector(xyz, ORIGIN); // calculates the unit vector to ORIGIN
+  xyz = addVector(xyz, unit, 1);  // adds (unit) vector to element's position
+  element.setAttribute("position", xyz.join(" ")); // updates element's position in DOM
 }
-
-function advancePawns(pawns) {
-  // iterates through list of pawns once
-  pawns.forEach(function(element) {
-    var xyz = positionAttributeAsArray(element);
-    // console.log(xyz);
-    var unit = unitVector(xyz, ORIGIN);
-    // console.log(unit);
-
-    // sets interval for each pawn
-    // moving pawn a step on each interval
-    setTimeout(function() {
-      console.log("start");
-
-      var movement = setInterval(function() {
-        xyz = addVector(xyz, unit, 1);
-        element.setAttribute("position", xyz.join(" "));
-        if (shieldDetection(element)) {
-            clearInterval(movement);
-            console.log("stopped moving");
-        };
-
-      }, 1000);
-    }, 5000);
-
-  });
-}
-
 function shieldDetection(element) {
   var xyz = positionAttributeAsArray(element);
-  return distance(xyz, ORIGIN) < 2;
+  return distance(xyz, ORIGIN) < SHIELD_RADIUS;
+}
+
+/** ENEMY ACTIONS **/
+function takeDamage() {
+  console.log(this);
+}
+
+function removeElement(element) {
+    element && element.parentNode && element.parentNode.removeChild(element);
 }

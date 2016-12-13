@@ -1,5 +1,14 @@
 /** PURE MATHEMATICS/GEOMETRY/TRIG **/
-/* BASIC SPHERICAL MATH */
+
+/* RANDOM GENERATOR MATH */
+function randRange(min, max) {
+  // min, max: arrays of length 3
+  // returns an int or float
+  // generates a random number between min and max
+  return Math.random() * (max-min) + min;
+}
+
+/* CARTESIAN MATH */
 function sphericalToCartesian(radius, theta, phi) {
   // radius, theta, phi: int or float
   // returns an array of length 3
@@ -11,15 +20,6 @@ function sphericalToCartesian(radius, theta, phi) {
   return [x, y, z];
 }
 
-/* RANDOM GENERATOR MATH */
-function randRange(min, max) {
-  // min, max: arrays of length 3
-  // returns an int or float
-  // generates a random number between min and max
-  return Math.random() * (max-min) + min;
-}
-
-/* BASIC CARTESIAN MATHS */
 function vector(xyz1, xyz2) {
   // xyz1, xyz2: arrays of length 3
   // returns an array of length 3
