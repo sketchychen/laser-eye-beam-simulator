@@ -47,9 +47,11 @@ AFRAME.registerComponent('collider-check', {
 // // }
 
 
-startRound();
 
 function startRound(){
+  /* HIDE MENU */
+  toggleVisible(MENU_ENTITY);
+
   /* ENEMY SET-UP */
   var PAWNS = spawnPawnsPartlyRandomly(NUM_OF_PAWNS, SPAWN_RADIUS, THETA_RANGE, PHI_RANGE);
   advancePawns(PAWNS, COUNTDOWN, MOVEMENT_PULSE);

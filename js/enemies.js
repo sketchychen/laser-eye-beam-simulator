@@ -163,11 +163,15 @@ function takeDamage(element) {
 
 function flashDamageAnimation(element, flash_pulse) {
   return setInterval(function() {
-    element.setAttribute("visible", !element.getAttribute('visible'));
+    toggleVisible(element);
   }, flash_pulse);
 }
 
 function removeElement(element) {
   console.log("removing");
   element.parentNode.removeChild(element);
+}
+
+function toggleVisible(element) {
+  element.setAttribute("visible", !element.getAttribute('visible'));
 }
