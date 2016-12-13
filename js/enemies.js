@@ -131,7 +131,7 @@ function shieldDetection(element) {
   return distance(xyz, ORIGIN) < SHIELD_RADIUS;
 }
 
-/** ENEMY ACTIONS/ONCLICK **/
+/* ENEMY ACTIONS/ONCLICK */
 function takeDamage(element) {
   console.log(element);
   element.removeAttribute("onclick");
