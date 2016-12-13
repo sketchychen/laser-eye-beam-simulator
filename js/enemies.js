@@ -16,7 +16,7 @@
 var PAWN_ENTITY = document.getElementById("enemy-pawns");
 // // enemy entity for "ORBITERS"
 // var ORBITER_ENTITY = document.getElementById("enemy-orbiters");
-
+var ORIGIN = [0, 0, 0];
 // actual list of PAWNS for iterating through
 var PAWNS = spawnPawns(20, 30, [0, 2*Math.PI], [Math.PI/4, Math.PI/2]);
 advancePawns(PAWNS);
@@ -95,79 +95,27 @@ function positionToArray(element) {
 
 
 function advancePawns(pawns) {
+  // iterates through list of pawns once
   pawns.forEach(function(element) {
     var xyz = positionToArray(element);
-    var unit = unitVector(xyz, [0, 0, 0]);
-    console.log(unit);
-    setInterval(function() {
+    // console.log(xyz);
+    var unit = unitVector(xyz, ORIGIN);
+    // console.log(unit);
+
+    // sets interval for each pawn
+    // moving pawn a step on each interval
+    var movement = setInterval(function() {
       xyz = addVector(xyz, unit, 1);
       element.setAttribute("position", xyz.join(" "));
+      // destinationDetection(element);
     }, 1000);
-
   });
 }
 
-
-
-/** PURE MATHEMATICS/GEOMETRY/TRIG **/
-/* BASIC SPHERICAL MATH */
-function sphericalToCartesian(radius, theta, phi) {
-  // radius, theta, phi: int or float
-  // returns an array of length 3
-  // calculates a point in Cartesian space
-  // from given spherical coordinates in RADIANS
-  var x = radius * Math.sin(phi) * Math.sin(theta);
-  var y = radius * Math.cos(phi);
-  var z = radius * Math.sin(phi) * Math.cos(theta);
-  return [x, y, z];
-}
-
-/* RANDOM GENERATOR MATH */
-function randRange(min, max) {
-  // min, max: arrays of length 3
-  // returns an int or float
-  // generates a random number between min and max
-  return Math.random() * (max-min) + min;
-}
-
-/* BASIC CARTESIAN MATHS */
-function vector(xyz1, xyz2) {
-  // xyz1, xyz2: arrays of length 3
-  // returns an array of length 3
-  // calculates vector from point xyz1 to xyz2
-  var dx = (xyz2[0]-xyz1[0]); // difference between the two x's
-  var dy = (xyz2[1]-xyz1[1]); // difference between the two y's
-  var dz = (xyz2[2]-xyz1[2]); // difference between the two z's
-  return [dx, dy, dz];
-}
-
-function distance(xyz1, xyz2) {
-  // xyz1, xyz2: arrays of length 3
-  // returns a scalar int or float
-  // calculates distance from point xyz1 to xyz2
-  var dxyz = vector(xyz1, xyz2);
-  var mag = Math.sqrt(dxyz[0]**2 + dxyz[1]**2 + dxyz[2]**2);
-  return mag;
-}
-
-function unitVector(xyz1, xyz2) {
-  // xyz1, xyz2: arrays of length 3
-  // returns an array of length 3
-  // calculates unit vector from point xyz1 to xyz2
-  var vec = vector(xyz1, xyz2);
-  var mag = distance(xyz1, xyz2);
-  var unit = [vec[0]/mag, vec[1]/mag, vec[2]/mag];
-  return unit;
-}
-
-function addVector(curr_xyz, unit_vector, magnitude) {
-  // curr_xyz, unit_vector: arrays of length 3
-  // magnitude: scalar, int or float
-  // returns an array of length 3
-  // adds unitVector * magnitude to a coordinate
-  var next_xyz = [];
-  next_xyz[0] = curr_xyz[0] + unit_vector[0]*magnitude;
-  next_xyz[1] = curr_xyz[1] + unit_vector[1]*magnitude;
-  next_xyz[2] = curr_xyz[2] + unit_vector[2]*magnitude;
-  return next_xyz; // [x, y, z]
-}
+// function destinationDetection(element) {
+//   var xyz = positionToArray(element);
+//   if (distance(xyz, ORIGIN) < 2) {
+//     console.log(element);
+//     clearInterval(movement); // fix clear interval
+//   };
+// }

@@ -14,6 +14,8 @@
     <a-scene>
       <a-assets>
         <img id="metal_grill" src="assets/metal_grill.jpg">
+        <img id="platform" src="assets/metal-texture.jpg">
+        <img id="shield" src="assets/hexagon-pattern.png">
         <img id="city" src="assets/city.jpg">
       </a-assets>
 
@@ -21,18 +23,13 @@
       <a-sky id="image-360" radius="100" color="#dddddd" src="#city"></a-sky>
 
       <!-- New lights. -->
-      <!-- <a-light type="spot" color="#333" position="-20 0 0" look-at="a-box"></a-light>
-      <a-light type="point" color="#AAA" position="0 5 0"></a-light> -->
+      <!-- <a-light type="spot" color="#333" position="-20 0 0" look-at="a-box"></a-light> -->
+      <!-- <a-light type="point" color="#AAA" position="0 5 0"></a-light> -->
 
 
       <!-- <a-box id="boxyhart" position="3.5759866544022314 -1.7922944645166807 0" rotation="0 00 0" color="#4CC3D9" src="#metal_grill" scale-on-click="to: 0.5 0.5 0.5">
         <a-animation attribute="rotation" begin="click"  to="0 90 0"></a-animation>
       </a-box> -->
-
-        <!-- <a-box id="boxy" depth=1 position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane> -->
 
       <a-entity id="enemies">
         <a-entity id="enemy-pawns">
@@ -41,13 +38,22 @@
         </a-entity>
       </a-entity>
 
-      <a-entity ground></a-entity>
+      <a-entity id="crows-nest">
+        <a-cone id="platform" position="0 0 0" radius-bottom="2", radius-top="1.5" height="0.5" src="#platform"></a-cone>
+        <a-sphere id="shield" position="0 0 0" rotation="90 0 0" radius="2" color="blue" side="double" opacity="0.4" src="#shield">
+          <a-animation easing="linear" attribute="rotation" dur="100000" to="0 360 0" repeat="indefinite"></a-animation></a-animation>
+        </a-sphere>
+      </a-entity>
+
+      <!-- <a-entity ground></a-entity> -->
+
 
       <a-camera position="0 1.68 0">
         <a-cursor color="#549234"></a-cursor>
       </a-camera>
     </a-scene>
 
+    <script src="js/math.js"></script>
     <script src="js/main.js"></script>
     <script src="js/enemies.js"></script>
     <script src="js/player.js"></script>
