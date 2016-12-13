@@ -12,15 +12,15 @@ var ORIGIN = [0, 0, 0];
 var SHIELD_RADIUS = 3;
 var NUM_OF_PLAYERS = 2;
 var CURRENT_PLAYER = 0;
-var SCORES = new Array(NUM_OF_PLAYERS+1).join('0').split('').map(parseFloat);
+var SCORES = arrayOfZeroes(NUM_OF_PLAYERS);
 
 /* ------------------------------------------------------ PLAYER SCOREKEEPING */
 function arrayOfZeroes(array_length) {
-  return new Array(array_length+1).join('0').split('').map(parseFloat);
+  return Array(array_length+1).join('0').split('').map(parseFloat);
 }
 
 function zeroScores() {
-  SCORES = new Array(NUM_OF_PLAYERS+1).join('0').split('').map(parseFloat);
+  SCORES = arrayOfZeroes(NUM_OF_PLAYERS);
 }
 
 function tallyScore(player) {
