@@ -59,7 +59,7 @@ function createEnemyElement(type_name, shape, depth, color, spawnXYZ, entity) {
   element.setAttribute("depth", depth);
   element.setAttribute("color", color);
   element.setAttribute("position", spawnXYZ.join(" "));
-  element.setAttribute("onclick", "takeDamage(this)");
+  element.setAttribute("visible", "true");
   entity.appendChild(element);
   return element;
 }
@@ -91,20 +91,22 @@ function partlyRandomSpawnPoint(radius, theta, phi_range) {
 // uses vector, distance, unitVector, addVector
 
 // start incremental interval movement after a timeout
-function advancePawns(pawns, countdown, step_time) {
+function advancePawns(pawns, countdown, step_pulse) {
   // iterates through list of pawns once
   pawns.forEach(function(element) {
     // sets interval for each pawn
     // moving pawn a step on each interval
+
     setTimeout(function() {
       console.log("start");
-      var movement = setInterval(function() {
+      element.setAttribute("onclick", "takeDamage(this)"); // able to take damage after countdown
+      var movement = setInterval(function() { // begin movement
         stepPawnForward(element);
         if (shieldDetection(element)) {
             clearInterval(movement);
             console.log("stopped moving");
         }; // closing if statement
-      }, step_time); // closing setInterval
+      }, step_pulse); // closing setInterval
     }, countdown); // closing setTimeout
   });
 } // closing function
@@ -130,9 +132,21 @@ function shieldDetection(element) {
 /** ENEMY ACTIONS/ONCLICK **/
 function takeDamage(element) {
   console.log(element);
-  removeElement(element);
+  var flash_pulse = 300;
+  var flash = flashDamage(element, flash_pulse);
+  setTimeout(function() {
+    clearInterval(flash);
+    removeElement(element);
+  }, flash_pulse*7);
+}
+
+function flashDamage(element, flash_pulse) {
+  return setInterval(function() {
+    element.setAttribute("visible", !element.getAttribute('visible'));
+  }, flash_pulse);
 }
 
 function removeElement(element) {
+  console.log("removing");
   element.parentNode.removeChild(element);
 }
