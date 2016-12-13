@@ -16,8 +16,7 @@
 var PAWN_ENTITY = document.getElementById("enemy-pawns");
 // // enemy entity for "ORBITERS"
 // var ORBITER_ENTITY = document.getElementById("enemy-orbiters");
-var ORIGIN = [0, 0, 0];
-var SHIELD_RADIUS = 3;
+
 // actual list of PAWNS for iterating through
 var PAWNS = spawnPawnsPartlyRandomly(20, 30, [0, 2*Math.PI], [Math.PI/4, Math.PI/2]);
 advancePawns(PAWNS, 5000, 1000);
@@ -50,16 +49,17 @@ function spawnPawnsPartlyRandomly(number_of_pawns, radius, theta_range, phi_rang
   }
   return pawns;
 }
-// set enemy's basic appearance
+// set enemy's basic attributes and append to parent entity
 function createEnemyElement(type_name, shape, depth, color, spawnXYZ, entity) {
   // creates a single enemy element with enemy class
   // appends it to respective enemy a-entity (for organized HTML structure)
   var element = document.createElement("a-"+shape);
-  element.className = type_name;
+  element.className = "enemy"
+  element.className += " " + type_name;
   element.setAttribute("depth", depth);
   element.setAttribute("color", color);
   element.setAttribute("position", spawnXYZ.join(" "));
-  element.setAttribute("onclick", "takeDamage()");
+  element.setAttribute("onclick", "takeDamage(this)");
   entity.appendChild(element);
   return element;
 }
@@ -87,14 +87,10 @@ function partlyRandomSpawnPoint(radius, theta, phi_range) {
   return spawnXYZ;
 }
 
-// function assignEnemyAttributes(element, radius, theta_range, phi_range) {
-//   /* ON CLICK */
-//   element.setAttribute("onclick", "takeDamage();");
-// }
-
 /* ENEMY MOVEMENT */
 // uses vector, distance, unitVector, addVector
-// movement done on interval
+
+// start incremental interval movement after a timeout
 function advancePawns(pawns, countdown, step_time) {
   // iterates through list of pawns once
   pawns.forEach(function(element) {
@@ -107,13 +103,11 @@ function advancePawns(pawns, countdown, step_time) {
         if (shieldDetection(element)) {
             clearInterval(movement);
             console.log("stopped moving");
-        };
-
-      }, step_time);
-    }, countdown);
-
+        }; // closing if statement
+      }, step_time); // closing setInterval
+    }, countdown); // closing setTimeout
   });
-}
+} // closing function
 
 function positionAttributeAsArray(element) {
   var xyz = [];
@@ -133,11 +127,12 @@ function shieldDetection(element) {
   return distance(xyz, ORIGIN) < SHIELD_RADIUS;
 }
 
-/** ENEMY ACTIONS **/
-function takeDamage() {
-  console.log(this);
+/** ENEMY ACTIONS/ONCLICK **/
+function takeDamage(element) {
+  console.log(element);
+  removeElement(element);
 }
 
 function removeElement(element) {
-    element && element.parentNode && element.parentNode.removeChild(element);
+  element.parentNode.removeChild(element);
 }
