@@ -1,9 +1,13 @@
-/** DOM MANIPULATION FOR ENEMIES **/
+/** ------------------------- ENEMY FUNCTIONALITY -------------------------- **/
+// ENEMY ELEMENT CREATION AND SPAWNING
+// ENEMY MOVEMENT
+// ENEMY ACTIONS/ONCLICK
+
 // if time, consider--
-  // consider staggered spawning
+  // damage SFX
+  // multiple enemy types (e.g. "ORBITER", "SUPER PAWN", "BOSS", etc.)
+  // staggered spawning
   // bullet+collision physics
-  // player HP
-  // player damage animation
   // enemy HP
 
 // collecting <a-entity>'s to which to append enemies of respective type
@@ -12,17 +16,16 @@ var PAWN_ENTITY = document.getElementById("enemy-pawns");
 // // enemy entity for "ORBITERS"
 // var ORBITER_ENTITY = document.getElementById("enemy-orbiters");
 
-// actual list of PAWNS for iterating through
-var NUMBER_OF_PAWNS = 10;
+// global vars for actual list of PAWNS to iterate through
+var NUM_OF_PAWNS = 10;
+var PAWNS_LEFT = NUM_OF_PAWNS; // redundant?
 var SPAWN_RADIUS = 30;
 var THETA_RANGE = [0, 2*Math.PI];
 var PHI_RANGE = [Math.PI/4, Math.PI/2];
-var PAWNS = spawnPawnsPartlyRandomly(NUMBER_OF_PAWNS, SPAWN_RADIUS, THETA_RANGE, PHI_RANGE);
 
-// setting up movement interval
+// global vars for setting up movement interval
 var COUNTDOWN = 5000;
 var MOVEMENT_PULSE = 1000;
-advancePawns(PAWNS, COUNTDOWN, MOVEMENT_PULSE);
 
 class Pawn {
   constructor(element) {
@@ -31,8 +34,9 @@ class Pawn {
   }
 } // work on later
 
-/* ENEMY ELEMENT CREATION AND SPAWNING */
-// uses sphericalToCartesian, randRange from gamemath.js
+
+/* -------------------------------------- ENEMY ELEMENT CREATION AND SPAWNING */
+// uses sphericalToCartesian, randRange from game-math.js
 // PAWNS represent enemies with the most basic movements (moving directly toward player)
 // ORBITERS represent enemies that orbit while moving toward player.
 
@@ -95,8 +99,9 @@ function partlyRandomSpawnPoint(radius, theta, phi_range) {
   return spawnXYZ;
 }
 
-/* ENEMY MOVEMENT */
-// uses vector, distance, unitVector, addVector
+
+/* ----------------------------------------------------------- ENEMY MOVEMENT */
+// uses vector, distance, unitVector, addVector from game-math.js
 
 // start incremental interval movement after a timeout
 function advancePawns(pawns, countdown, step_pulse) {
@@ -139,23 +144,24 @@ function shieldDetection(element) {
   return distance(xyz, ORIGIN) < SHIELD_RADIUS;
 }
 
-/* ENEMY ACTIONS/ONCLICK */
+/* ---------------------------------------------------- ENEMY ACTIONS/ONCLICK */
 function takeDamage(element) {
   console.log(element);
   element.removeAttribute("onclick");
 
   var flash_pulse = 300;
-  var flash = flashDamage(element, flash_pulse);
-
+  var flash = flashDamageAnimation(element, flash_pulse);
+  document.getElementById("explosion").play();
   setTimeout(function() {
-    clearInterval(flash);
-    removeElement(element);
-    tallyScore();
+    clearInterval(flash); // stop thing
+    removeElement(element); // enemy was eliminated, remove from DOM
+    tallyScore(); // mark one for the player
+    PAWNS_LEFT--; // keep track of how many are left
   }, flash_pulse*7);
 
 }
 
-function flashDamage(element, flash_pulse) {
+function flashDamageAnimation(element, flash_pulse) {
   return setInterval(function() {
     element.setAttribute("visible", !element.getAttribute('visible'));
   }, flash_pulse);

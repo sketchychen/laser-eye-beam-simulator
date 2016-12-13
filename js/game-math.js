@@ -1,6 +1,6 @@
-/** PURE MATHEMATICS/GEOMETRY/TRIG **/
+/** -------------------- PURE MATHEMATICS/GEOMETRY/TRIG -------------------- **/
 
-/* RANDOM GENERATOR MATH */
+/* ---------------------------------------------------- RANDOM GENERATOR MATH */
 function randRange(min, max) {
   // min, max: arrays of length 3
   // returns an int or float
@@ -8,7 +8,7 @@ function randRange(min, max) {
   return Math.random() * (max-min) + min;
 }
 
-/* CARTESIAN MATH */
+/* ----------------------------------------------------------- CARTESIAN MATH */
 function sphericalToCartesian(radius, theta, phi) {
   // radius, theta, phi: int or float
   // returns an array of length 3

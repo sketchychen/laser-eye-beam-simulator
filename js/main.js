@@ -45,3 +45,15 @@ AFRAME.registerComponent('collider-check', {
 //   XYZ[0]++
 // }, 1000);
 // // }
+
+
+startRound();
+
+function startRound(){
+  /* ENEMY SET-UP */
+  var PAWNS = spawnPawnsPartlyRandomly(NUM_OF_PAWNS, SPAWN_RADIUS, THETA_RANGE, PHI_RANGE);
+  advancePawns(PAWNS, COUNTDOWN, MOVEMENT_PULSE);
+
+  /* PLAYER SET-UP */
+
+}
