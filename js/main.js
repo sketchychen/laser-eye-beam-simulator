@@ -36,6 +36,7 @@ var MOVEMENT_PULSE = 1000;
 
 
 function startRound() {
+  // hide PROMPT to avoid further clicking
   toggleVisible(PROMPT);
 
   /* ENEMY SET-UP */
@@ -51,10 +52,10 @@ function startRound() {
     advancePawns(PAWNS, MOVEMENT_PULSE);
   }, COUNTDOWN+1000); // close timeout
 
+  /* IN THE MEANWHILE, COUNTDOWN ON MENU */
   bmfontTextSet(TEXT_LINE_1, "PLAYER " + (CURRENT_PLAYER+1));
-  bmfontTextSet(TEXT_LINE_2, "BEGIN ROUND IN");
   var counting = setInterval(function(){
-    bmfontTextSet(TEXT_LINE_3, count);
+    bmfontTextSet(TEXT_LINE_2, "BEGIN ROUND IN " + count);
     count--;
   }, 1000) // close setInterval
 
@@ -63,6 +64,11 @@ function startRound() {
 
 function endRound() {
 
+}
+
+function nextTurn() {
+  CURRENT_PLAYER = nextPlayer(CURRENT_PLAYER);
+  bmfontTextSet(TEXT_LINE_1)
 }
 
 function endGame() {

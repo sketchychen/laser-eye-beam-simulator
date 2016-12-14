@@ -11,7 +11,7 @@
 var ORIGIN = [0, 0, 0];
 var SHIELD_RADIUS = 3;
 var NUM_OF_PLAYERS = 2;
-var CURRENT_PLAYER = 0;
+var CURRENT_PLAYER = 0; // cycles through using nextPlayer()
 var SCORES = arrayOfZeroes(NUM_OF_PLAYERS);
 
 /* ------------------------------------------------------ PLAYER SCOREKEEPING */
@@ -28,11 +28,10 @@ function tallyScore(player) {
   console.log(SCORES);
 }
 
-function nextPlayer(current) { // in case of multiple players
-  // local variable names used for readability (e.g. instead of just using current++)
-  var next = current+1; // next player
-  next %= NUM_OF_PLAYERS; // cycle back down to 0 when incrementer passes NUM_OF_PLAYERS
-  return next;
+function nextPlayer() { // in case of multiple players
+  CURRENT_PLAYER++; // next player
+  CURRENT_PLAYER %= NUM_OF_PLAYERS; // cycle back down to 0 when incrementer passes NUM_OF_PLAYERS
+  console.log(CURRENT_PLAYER);
 }
 
 /* -------------------------------------------------- PLAYER CURSOR TARGETING */
