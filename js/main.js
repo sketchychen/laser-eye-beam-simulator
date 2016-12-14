@@ -44,10 +44,16 @@ var SCORES = arrayOfZeroes(NUM_OF_PLAYERS);
 
 
 function resetGame() {
+  /* PLAYER RESET */
   SCORES = arrayOfZeroes;
-  clearAllScreenText();
+  CURRENT_PLAYER = 0;
+
+  /* ENEMY RESET */
   clearRemainingEnemies(PAWN_ENTITY);
   PAWNS = [];
+
+  /* GAME MENU RESET */
+  clearAllScreenText();
   PROMPT.setAttribute("onclick", "startRound();")
   bmfontTextSet(TEXT_LINE[0], "START GAME?");
 }
