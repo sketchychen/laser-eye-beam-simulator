@@ -50,7 +50,6 @@ function resetGame() {
   PAWNS = [];
 
   bmfontTextSet(TEXT_LINE[0], "START GAME?");
-  toggleVisible(PROMPT);
 }
 
 
