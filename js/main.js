@@ -53,9 +53,11 @@ function resetGame() {
   PAWNS = [];
 
   /* GAME MENU RESET */
+  toggleVisible(PROMPT);
   clearAllScreenText();
-  PROMPT.setAttribute("onclick", "startRound();")
+  PROMPT.setAttribute("onclick", "startRound();");
   bmfontTextSet(TEXT_LINE[0], "START GAME?");
+  setTimeout(function() { toggleVisible(PROMPT); }, 2000);
 }
 
 
