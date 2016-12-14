@@ -25,8 +25,8 @@ var COUNTDOWN = 5000;
 /* ENEMY GLOBAL VARIABLES */
 // number of pawns, where they spawn
 var NUM_OF_PAWNS = 5
-var PAWNS = [];
 var PAWNS_LEFT = NUM_OF_PAWNS; // redundant?
+var PAWNS = [];
 var SPAWN_RADIUS = 10;
 var THETA_RANGE = [0, 2*Math.PI];
 var PHI_RANGE = [Math.PI/4, Math.PI/2];
@@ -101,7 +101,7 @@ function endRound() {
 
 
   if (NUM_OF_PLAYERS > 1) {
-    console.log("more than one player set")
+    console.log("more than one player set");
     nextPlayer(); // update current player
     setTimeout(function() { // prompt user to hand off to next player
       if (CURRENT_PLAYER < NUM_OF_PLAYERS) {
@@ -118,8 +118,9 @@ function endRound() {
     }, 5000); // closing setTimeout
 
   } else {
-    console.log("end the game")
-    // endGame();
+    console.log("only single player");
+    console.log("end the game");
+    endGame();
   }
 }
 

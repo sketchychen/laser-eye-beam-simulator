@@ -166,18 +166,26 @@ function takeDamage(element) {
   tallyScore(CURRENT_PLAYER); // mark one for the player
   PAWNS_LEFT--; // keep track of how many are left
   SOUND_EXPLOSION.play();
-  
+
   setTimeout(function() {
     clearInterval(flash); // stop thing
     removeElement(element); // enemy was eliminated, remove from DOM
 
   }, flash_pulse*7);
 
+  countRemainingEnemies();
+
 }
 
 function clearRemainingEnemies(entity) {
   while (entity.firstChild) {
       entity.removeChild(entity.firstChild);
+  }
+}
+
+function countRemainingEnemies() {
+  if (PAWNS_LEFT === 0) {
+    endRound();
   }
 }
 
