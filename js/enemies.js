@@ -19,7 +19,7 @@ var PAWN_ENTITY = document.getElementById("enemy-pawns");
 // global vars for actual list of PAWNS to iterate through
 var NUM_OF_PAWNS = 5;
 var PAWNS_LEFT = NUM_OF_PAWNS; // redundant?
-var SPAWN_RADIUS = 30;
+var SPAWN_RADIUS = 10;
 var THETA_RANGE = [0, 2*Math.PI];
 var PHI_RANGE = [Math.PI/4, Math.PI/2];
 
@@ -28,9 +28,10 @@ var COUNTDOWN = 5000;
 var MOVEMENT_PULSE = 1000;
 
 class Pawn {
-  constructor(element) {
+  constructor(element, countdown, movement) {
     this.element = element;
-    this.position = positionAttributeAsArray(element);
+    this.countdown = countdown;
+    this.movement = movement;
   }
 } // work on later
 
@@ -115,7 +116,7 @@ function advancePawns(pawns, countdown, step_pulse) {
       // able to take damage after countdown, but not before
       element.setAttribute("onclick", "takeDamage(this)");
       // element.addEventListener("click", takeDamage);
-      var movement = setInterval(function() { // begin movement
+      var movement = setInterval(function() { // begin movement AND ALSO FIX THIS
         stepPawnForward(element);
         if (shieldDetection(element)) {
             clearInterval(movement);
@@ -125,6 +126,12 @@ function advancePawns(pawns, countdown, step_pulse) {
     }, countdown); // closing setTimeout
   });
 } // closing function
+
+function movementInterval(element, step_pulse) {
+  return setInterval(function() { // begin movement
+    stepPawnForward(element);
+  }, step_pulse);
+}
 
 function positionAttributeAsArray(element) {
   var xyz = [];
@@ -148,6 +155,7 @@ function shieldDetection(element) {
 function takeDamage(element) {
   console.log(element);
   element.removeAttribute("onclick");
+  clearInterval(); // remove movement interval
 
   var flash_pulse = 300;
   var flash = flashDamageAnimation(element, flash_pulse);

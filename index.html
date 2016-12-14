@@ -39,15 +39,15 @@
       <!-- <a-light type="point" color="#AAA" position="0 5 0"></a-light> -->
       <a-entity id="menu" position="0 1.7 -2" visible="true">
         <a-plane id="screen" width="2" color="cyan" opacity="0.5">
-          <a-entity id="header-text" position="-1 0.5 0" scale="0.5 0.5 0.5"
-            color="#fff" opacity="0.2" align="left"
+          <a-entity id="header-text" position="-1 0.5 0"
+            scale="0.5 0.5 0.5" color="#fff" opacity="0.2" align="left"
             bmfont-text="text: LASER EYE BEAM SIMULATOR">
           </a-entity>
 
           <a-plane id="start" class="button" position="0 0 0.25" width="1" height="0.2"
             color="cyan" opacity="0.5" onclick="startRound();">
-            <a-entity id="button-text" position="-0.4 -0.035 0" scale="0.5 0.5 0.5"
-              color="#fff" opacity="0.2" align="center"
+            <a-entity id="button-text" position="-0.4 -0.035 0.1"
+              scale="0.5 0.5 0.5" color="#fff" opacity="0.2" align="center"
               bmfont-text="text: >> START ROUND">
             </a-entity>
           </a-plane>
@@ -84,7 +84,10 @@
 
 
       <a-camera position="0 1.68 0">
-        <a-cursor color="#549234"></a-cursor>
+        <a-cursor color="#549234">
+          <a-animation begin="hovering" easing="ease-in" attribute="scale" fill="forwards" from=".5 .5 .5" to="0.1 0.1 0.1" dur="1000">
+           </a-animation>
+         </a-cursor>
       </a-camera>
     </a-scene>
 
