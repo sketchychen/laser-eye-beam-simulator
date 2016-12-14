@@ -44,6 +44,8 @@
       <!-- New lights. -->
       <!-- <a-light type="spot" color="#333" position="-20 0 0" look-at="a-box"></a-light> -->
       <!-- <a-light type="point" color="#AAA" position="0 5 0"></a-light> -->
+
+      <!-- Menu entities. -->
       <a-entity id="menu" position="0 1.7 -2" visible="true">
         <a-plane id="screen" width="2" color="cyan" opacity="0.5">
           <a-entity id="header-text" position="-1 0.5 0"
@@ -51,9 +53,10 @@
             bmfont-text="text: LASER EYE BEAM SIMULATOR">
           </a-entity>
 
+          <!-- Text entities. -->
           <a-entity id="text-line-0" position="-0.9 0.3 0.05"
             scale="0.5 0.5 0.5" color="#fff" opacity="0.2" align="left"
-            bmfont-text="text: > LOADING...">
+            bmfont-text="text: > START GAME?">
           </a-entity>
           <a-entity id="text-line-1" position="-0.9 0.2 0.05"
             scale="0.5 0.5 0.5" color="#fff" opacity="0.2" align="left"
@@ -68,9 +71,9 @@
             bmfont-text="text: ">
           </a-entity>
 
-
+          <!-- Prompt entities. -->
           <a-plane id="prompt" class="option" position="0 -0.3 0.05" width="1.75" height="0.2"
-            color="cyan" opacity="0.5" onclick="startRound();" visible="false">
+            color="cyan" opacity="0.5" onclick="startRound();" visible="true">
 
             <a-entity id="prompt-text" position="-0.8 -0.025 0.05"
               scale="0.5 0.5 0.5" color="#fff" opacity="0.2" align="center"

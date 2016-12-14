@@ -101,7 +101,8 @@ function advancePawns(pawns, step_pulse) {
     var pawn_element = pawns[i]; // temporarily save current element for next line of code
 
     // overwrite index space with Class object
-    pawns[i] = new Enemy("Pawn", pawn_element, movementInterval(pawns[i], step_pulse));
+    pawns[i] = new Enemy("Pawn", pawn_element);
+    pawns[i].moveInterval = movementInterval(pawns[i], step_pulse)
 
     console.log("start");
 
@@ -124,7 +125,7 @@ function advancePawns(pawns, step_pulse) {
 function movementInterval(enemyClassObj, step_pulse) {
   return setInterval(function() { // begin movement AND ALSO FIX THIS
     stepPawnForward(enemyClassObj.element);
-    if (destinationDetection(enemyClassObj)) {
+    if (destinationDetection(enemyClassObj.element)) {
         clearInterval(enemyClassObj.moveInterval);
         console.log("reached player");
         SOUND_ROUNDOVER.play()
@@ -133,18 +134,18 @@ function movementInterval(enemyClassObj, step_pulse) {
   }, step_pulse); // closing setInterval
 }
 
+function stepPawnForward(element) {
+  var xyz = positionAttributeAsArray(element); // produces easier format of element's position
+  var unit = unitVector(xyz, ORIGIN); // calculates the unit vector to ORIGIN
+  xyz = addVector(xyz, unit, 1);  // adds (unit) vector to element's position
+  element.setAttribute("position", xyz.join(" ")); // updates element's position in DOM
+}
 function positionAttributeAsArray(element) {
   var xyz = [];
   xyz[0] = element.getAttribute("position").x;
   xyz[1] = element.getAttribute("position").y;
   xyz[2] = element.getAttribute("position").z;
   return xyz;
-}
-function stepPawnForward(element) {
-  var xyz = positionAttributeAsArray(element); // produces easier format of element's position
-  var unit = unitVector(xyz, ORIGIN); // calculates the unit vector to ORIGIN
-  xyz = addVector(xyz, unit, 1);  // adds (unit) vector to element's position
-  element.setAttribute("position", xyz.join(" ")); // updates element's position in DOM
 }
 function destinationDetection(element) {
   var xyz = positionAttributeAsArray(element);

@@ -22,9 +22,6 @@
 // startRound countdown
 var COUNTDOWN = 5000;
 
-bmfontTextSet(TEXT_LINE_0, "START GAME?");
-toggleVisible(PROMPT);
-
 /* ENEMY GLOBAL VARIABLES */
 // number of pawns, where they spawn
 var NUM_OF_PAWNS = 5
@@ -43,6 +40,15 @@ var PLAYER_RADIUS = 2;
 var NUM_OF_PLAYERS = 2;
 var CURRENT_PLAYER = 0; // cycles through using nextPlayer()
 var SCORES = arrayOfZeroes(NUM_OF_PLAYERS);
+
+
+// startGame();
+//
+// function startGame() {
+//   bmfontTextSet(TEXT_LINE_0, "START GAME?");
+//   toggleVisible(PROMPT);
+// }
+
 
 function startRound() {
   // hide PROMPT to avoid further clicking
@@ -99,5 +105,6 @@ function endGame() {
 function newGame() {
 
 }
+
 
 console.log("main.js loaded");

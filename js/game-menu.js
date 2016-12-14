@@ -20,7 +20,7 @@ function bmfontTextSet(element, string) {
 }
 
 function toggleVisible(element) {
-  element.setAttribute("visible", !element.getAttribute('visible'));
+  element.setAttribute("visible", !element.getAttribute("visible"));
 }
 
 function flashAnimation(element, flash_pulse) {
