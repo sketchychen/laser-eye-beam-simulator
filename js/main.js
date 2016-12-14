@@ -51,9 +51,10 @@ function startRound() {
     advancePawns(PAWNS, MOVEMENT_PULSE);
   }, COUNTDOWN+1000); // close timeout
 
+  bmfontTextSet(TEXT_LINE_1, "PLAYER " + (CURRENT_PLAYER+1));
+  bmfontTextSet(TEXT_LINE_2, "BEGIN ROUND IN");
   var counting = setInterval(function(){
-    // UPPER_TEXT.setAttribute("bmfont-text", "text: > " + count);
-    bmfontTextSet(UPPER_TEXT, count);
+    bmfontTextSet(TEXT_LINE_3, count);
     count--;
   }, 1000) // close setInterval
 

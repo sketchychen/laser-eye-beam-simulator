@@ -11,9 +11,7 @@
   // enemy HP
 
 // collecting <a-entity>'s to which to append enemies of respective type
-// enemy entity for "PAWN"
 var PAWN_ENTITY = document.getElementById("enemy-pawns");
-// // enemy entity for "ORBITERS"
 // var ORBITER_ENTITY = document.getElementById("enemy-orbiters");
 
 class Pawn {
