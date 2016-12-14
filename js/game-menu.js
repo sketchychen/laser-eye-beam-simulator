@@ -3,10 +3,15 @@
 // END GAME STATE
 
 var MENU_ENTITY = document.getElementById("menu");
-var TEXT_LINE_0 = document.getElementById("text-line-0");
-var TEXT_LINE_1 = document.getElementById("text-line-1");
-var TEXT_LINE_2 = document.getElementById("text-line-2");
-var TEXT_LINE_3 = document.getElementById("text-line-3");
+var TEXT_LINE = [];
+TEXT_LINE.push(document.getElementById("text-line-0"));
+TEXT_LINE.push(document.getElementById("text-line-1"));
+TEXT_LINE.push(document.getElementById("text-line-2"));
+TEXT_LINE.push(document.getElementById("text-line-3"));
+// var TEXT_LINE_0 = document.getElementById("text-line-0");
+// var TEXT_LINE_1 = document.getElementById("text-line-1");
+// var TEXT_LINE_2 = document.getElementById("text-line-2");
+// var TEXT_LINE_3 = document.getElementById("text-line-3");
 var PROMPT = document.getElementById("prompt");
 var PROMPT_TEXT = document.getElementById("prompt-text");
 var PROMPT_CURSOR = document.getElementById("prompt-cursor");
@@ -17,6 +22,12 @@ var text_cursor_flash = flashAnimation(PROMPT_CURSOR, 500); // because REASONS
 function bmfontTextSet(element, string) {
   var text = "text: > " + string;
   element.setAttribute("bmfont-text", text);
+}
+
+function clearAllScreenText() {
+  TEXT_LINE.forEach(function(element){
+    element.setAttribute("bmfont-text", "");
+  })
 }
 
 function toggleVisible(element) {
@@ -38,11 +49,11 @@ function removeElement(element) {
 /* ----------------------------------------------------------- END GAME STATE */
 function displayScores(scores) {
   var text = ""
-  bmfontTextSet(TEXT_LINE_0, "|SCORES|");
+  bmfontTextSet(TEXT_LINE[0], "|SCORES|");
   for (var i=0; i<NUM_OF_PLAYERS; i++) {
     text += "|PLAYER " + (i+1) + ": " + SCORES[i] + "|";
   }
-  bmfontTextSet(TEXT_LINE_1, text);
+  bmfontTextSet(TEXT_LINE[1], text);
 }
 
 console.log("game-menu.js loaded");

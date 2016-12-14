@@ -22,7 +22,7 @@ class Enemy {
     this.element = element;
     this.moveInterval = moveInterval;
   }
-} // work on later
+}
 
 
 /* -------------------------------------- ENEMY ELEMENT CREATION AND SPAWNING */
@@ -109,16 +109,6 @@ function advancePawns(pawns, step_pulse) {
     // able to take damage after countdown, but not before
     pawns[i].element.setAttribute("onclick", "takeDamage(this)");
 
-    // element.addEventListener("click", takeDamage);
-    // var movement = setInterval(function() { // begin movement AND ALSO FIX THIS
-    //   stepPawnForward(pawn[i]);
-    //   if (destinationDetection(pawn[i])) {
-    //       clearInterval(pawn[i].moveInterval);
-    //       console.log("reached player");
-    //       SOUND_ROUNDOVER.play()
-    //       setTimeout(endRound, 1000);
-    //   }; // closing if statement
-    // }, step_pulse); // closing setInterval
   };
 } // closing function
 
@@ -126,10 +116,7 @@ function movementInterval(enemyClassObj, step_pulse) {
   return setInterval(function() { // begin movement AND ALSO FIX THIS
     stepPawnForward(enemyClassObj.element);
     if (destinationDetection(enemyClassObj.element)) {
-        clearInterval(enemyClassObj.moveInterval);
-        console.log("reached player");
-        SOUND_ROUNDOVER.play()
-        setTimeout(endRound, 1000);
+        endRound();
     }; // closing if statement
   }, step_pulse); // closing setInterval
 }
@@ -140,6 +127,7 @@ function stepPawnForward(element) {
   xyz = addVector(xyz, unit, 1);  // adds (unit) vector to element's position
   element.setAttribute("position", xyz.join(" ")); // updates element's position in DOM
 }
+
 function positionAttributeAsArray(element) {
   var xyz = [];
   xyz[0] = element.getAttribute("position").x;
@@ -147,25 +135,42 @@ function positionAttributeAsArray(element) {
   xyz[2] = element.getAttribute("position").z;
   return xyz;
 }
+
 function destinationDetection(element) {
   var xyz = positionAttributeAsArray(element);
   return distance(xyz, ORIGIN) < PLAYER_RADIUS;
 }
 
 /* ---------------------------------------------------- ENEMY ACTIONS/ONCLICK */
+function remotelyClearInterval(enemyList, element) {
+  enemyList.forEach(function(object) {
+    if (object.element === element) {
+      clearInterval(object.moveInterval);
+    }
+  })
+}
+
+function remotelyClearAllIntervals(enemyList) {
+  enemyList.forEach(function(object) {
+    clearInterval(object.moveInterval);
+  })
+}
+
 function takeDamage(element) {
   console.log(element);
+  remotelyClearInterval(PAWNS, element); // remove movement interval
   element.removeAttribute("onclick");
-  clearInterval(); // remove movement interval
 
   var flash_pulse = 300;
   var flash = flashAnimation(element, flash_pulse);
+  tallyScore(CURRENT_PLAYER); // mark one for the player
+  PAWNS_LEFT--; // keep track of how many are left
   SOUND_EXPLOSION.play();
+  
   setTimeout(function() {
     clearInterval(flash); // stop thing
     removeElement(element); // enemy was eliminated, remove from DOM
-    tallyScore(CURRENT_PLAYER); // mark one for the player
-    PAWNS_LEFT--; // keep track of how many are left
+
   }, flash_pulse*7);
 
 }
