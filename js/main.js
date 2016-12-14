@@ -48,7 +48,7 @@ function resetGame() {
   clearAllScreenText();
   clearRemainingEnemies(PAWN_ENTITY);
   PAWNS = [];
-
+  PROMPT.setAttribute("onclick", "startRound();")
   bmfontTextSet(TEXT_LINE[0], "START GAME?");
 }
 
