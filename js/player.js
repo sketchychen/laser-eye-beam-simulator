@@ -8,15 +8,27 @@
   // player damage animation
   // bullet projecting
 
-var ORIGIN = [0, 0, 0];
-var SHIELD_RADIUS = 3;
-var NUM_OF_PLAYERS = 2;
-var CURRENT_PLAYER = 0; // cycles through using nextPlayer()
-var SCORES = arrayOfZeroes(NUM_OF_PLAYERS);
+var SOUND_ROUNDOVER = document.getElementById("roundover");
 
 /* ------------------------------------------------------ PLAYER SCOREKEEPING */
+
+function maxScore(scores) {
+  // returns index of max score, works on arrays of length 1
+  var max = scores[0];
+  for (var i=0; i<scores.length; i++) {
+    if (scores[i] > max) {
+      max = scores[i];
+    }
+  }
+  return max;
+}
+
 function arrayOfZeroes(array_length) {
-  return Array(array_length+1).join('0').split('').map(parseFloat);
+  if (array_length > 1) {
+    return Array(array_length+1).join('0').split('').map(parseFloat); // does not work for array of length 1
+  } else {
+    return [0];
+  }
 }
 
 function zeroScores() {
@@ -30,8 +42,12 @@ function tallyScore(player) {
 
 function nextPlayer() { // in case of multiple players
   CURRENT_PLAYER++; // next player
-  CURRENT_PLAYER %= NUM_OF_PLAYERS; // cycle back down to 0 when incrementer passes NUM_OF_PLAYERS
-  console.log(CURRENT_PLAYER);
+  // // in case of cycling through multiple rounds:
+  // CURRENT_PLAYER %= NUM_OF_PLAYERS; // cycle back down to 0 when incrementer passes NUM_OF_PLAYERS
+  // console.log(CURRENT_PLAYER);
 }
 
 /* -------------------------------------------------- PLAYER CURSOR TARGETING */
+
+
+console.log("player.js loaded");

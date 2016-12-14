@@ -28,6 +28,7 @@
 
         <!-- Audio. -->
         <audio id="explosion" src="assets/270308__littlerobotsoundfactory__explosion-00.wav">
+        <audio id="roundover" src="assets/350982__cabled-mess__lose-c-06.wav">
         <!-- <audio id="laser" src=""> -->
 
         <!-- <script id="plane" type="text/nunjucks">
@@ -50,21 +51,26 @@
             bmfont-text="text: LASER EYE BEAM SIMULATOR">
           </a-entity>
 
-          <a-entity id="text-line-1" position="-0.9 0.3 0.05"
+          <a-entity id="text-line-0" position="-0.9 0.3 0.05"
             scale="0.5 0.5 0.5" color="#fff" opacity="0.2" align="left"
-            bmfont-text="text: > START ROUND?">
+            bmfont-text="text: > LOADING...">
           </a-entity>
-          <a-entity id="text-line-2" position="-0.9 0.2 0.05"
+          <a-entity id="text-line-1" position="-0.9 0.2 0.05"
             scale="0.5 0.5 0.5" color="#fff" opacity="0.2" align="left"
             bmfont-text="text: ">
           </a-entity>
-          <a-entity id="text-line-3" position="-0.9 0.1 0.05"
+          <a-entity id="text-line-2" position="-0.9 0.1 0.05"
+            scale="0.5 0.5 0.5" color="#fff" opacity="0.2" align="left"
+            bmfont-text="text: ">
+          </a-entity>
+          <a-entity id="text-line-3" position="-0.9 0.0 0.05"
             scale="0.5 0.5 0.5" color="#fff" opacity="0.2" align="left"
             bmfont-text="text: ">
           </a-entity>
 
+
           <a-plane id="prompt" class="option" position="0 -0.3 0.05" width="1.75" height="0.2"
-            color="cyan" opacity="0.5" onclick="startRound();" visible="true">
+            color="cyan" opacity="0.5" onclick="startRound();" visible="false">
 
             <a-entity id="prompt-text" position="-0.8 -0.025 0.05"
               scale="0.5 0.5 0.5" color="#fff" opacity="0.2" align="center"
@@ -118,10 +124,10 @@
       </a-camera>
     </a-scene>
 
-    <script src="js/game-math.js"></script> <!-- loads calculations made for the game -->
-    <script src="js/enemies.js"></script> <!-- loads enemy functions -->
-    <script src="js/player.js"></script> <!-- loads player functions -->
+    <script src="js/game-mathematics.js"></script> <!-- loads calculations made for the game -->
     <script src="js/game-menu.js"></script> <!-- loads game menu functions -->
+    <script src="js/player.js"></script> <!-- loads player functions -->
+    <script src="js/enemies.js"></script> <!-- loads enemy functions -->
     <script src="js/main.js"></script> <!-- loads game states -->
   </body>
 </html>

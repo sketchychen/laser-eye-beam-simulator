@@ -22,10 +22,12 @@
 // startRound countdown
 var COUNTDOWN = 5000;
 
+bmfontTextSet(TEXT_LINE_0, "START GAME?");
+toggleVisible(PROMPT);
 
 /* ENEMY GLOBAL VARIABLES */
-// global vars for actual list of PAWNS to iterate through
-var NUM_OF_PAWNS = 5;
+// number of pawns, where they spawn
+var NUM_OF_PAWNS = 5
 var PAWNS_LEFT = NUM_OF_PAWNS; // redundant?
 var SPAWN_RADIUS = 10;
 var THETA_RANGE = [0, 2*Math.PI];
@@ -34,6 +36,13 @@ var PHI_RANGE = [Math.PI/4, Math.PI/2];
 // global vars for setting up movement interval
 var MOVEMENT_PULSE = 1000;
 
+/* PLAYER GLOBAL VARIABLES */
+// scores, hit box radius
+var ORIGIN = [0, 0, 0]; // opting to not have the enemies to go for the player's head at [0, 1.68, 0]
+var PLAYER_RADIUS = 2;
+var NUM_OF_PLAYERS = 2;
+var CURRENT_PLAYER = 0; // cycles through using nextPlayer()
+var SCORES = arrayOfZeroes(NUM_OF_PLAYERS);
 
 function startRound() {
   // hide PROMPT to avoid further clicking
@@ -53,9 +62,9 @@ function startRound() {
   }, COUNTDOWN+1000); // close timeout
 
   /* IN THE MEANWHILE, COUNTDOWN ON MENU */
-  bmfontTextSet(TEXT_LINE_1, "PLAYER " + (CURRENT_PLAYER+1));
+  bmfontTextSet(TEXT_LINE_0, "PLAYER " + (CURRENT_PLAYER+1));
   var counting = setInterval(function(){
-    bmfontTextSet(TEXT_LINE_2, "BEGIN ROUND IN " + count);
+    bmfontTextSet(TEXT_LINE_1, "BEGIN ROUND IN " + count);
     count--;
   }, 1000) // close setInterval
 
@@ -63,12 +72,24 @@ function startRound() {
 }
 
 function endRound() {
+  toggleVisible(MENU_ENTITY);
+  displayScores();
 
-}
+  if (NUM_OF_PLAYERS > 1) {
+    console.log("more than one player set")
+    nextPlayer(); // update current player
+    console.log("next player up, player " + CURRENT_PLAYER);
+    setTimeout(function() { // prompt user to hand off to next player
+      if (CURRENT_PLAYER < NUM_OF_PLAYERS) {
+        bmfontTextSet(TEXT_LINE_2, "HAND VISOR TO PLAYER " + CURRENT_PLAYER);
+      }
 
-function nextTurn() {
-  CURRENT_PLAYER = nextPlayer(CURRENT_PLAYER);
-  bmfontTextSet(TEXT_LINE_1)
+    }, 5000); // closing setTimeout
+
+  } else {
+    console.log("end the game")
+    // endGame();
+  }
 }
 
 function endGame() {
@@ -78,3 +99,5 @@ function endGame() {
 function newGame() {
 
 }
+
+console.log("main.js loaded");

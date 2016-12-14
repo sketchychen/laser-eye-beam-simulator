@@ -3,6 +3,7 @@
 // END GAME STATE
 
 var MENU_ENTITY = document.getElementById("menu");
+var TEXT_LINE_0 = document.getElementById("text-line-0");
 var TEXT_LINE_1 = document.getElementById("text-line-1");
 var TEXT_LINE_2 = document.getElementById("text-line-2");
 var TEXT_LINE_3 = document.getElementById("text-line-3");
@@ -18,12 +19,30 @@ function bmfontTextSet(element, string) {
   element.setAttribute("bmfont-text", text);
 }
 
+function toggleVisible(element) {
+  element.setAttribute("visible", !element.getAttribute('visible'));
+}
+
+function flashAnimation(element, flash_pulse) {
+  return setInterval(function() {
+    toggleVisible(element);
+  }, flash_pulse);
+}
+
+function removeElement(element) {
+  console.log("removing");
+  element.parentNode.removeChild(element);
+}
+
+
 /* ----------------------------------------------------------- END GAME STATE */
 function displayScores(scores) {
   var text = ""
-  bmfontTextSet(TEXT_LINE_1, "SCORES ----");
+  bmfontTextSet(TEXT_LINE_0, "|SCORES|");
   for (var i=0; i<NUM_OF_PLAYERS; i++) {
     text += "|PLAYER " + (i+1) + ": " + SCORES[i] + "|";
   }
-  bmfontTextSet(TEXT_LINE_2, text);
+  bmfontTextSet(TEXT_LINE_1, text);
 }
+
+console.log("game-menu.js loaded");

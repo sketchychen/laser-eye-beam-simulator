@@ -60,3 +60,5 @@ function addVector(curr_xyz, unit_vector, magnitude) {
   next_xyz[2] = curr_xyz[2] + unit_vector[2]*magnitude;
   return next_xyz; // [x, y, z]
 }
+
+console.log("game-mathematics.js loaded");
