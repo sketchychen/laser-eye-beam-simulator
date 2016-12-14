@@ -29,6 +29,12 @@
         <!-- Audio. -->
         <audio id="explosion" src="assets/270308__littlerobotsoundfactory__explosion-00.wav">
         <!-- <audio id="laser" src=""> -->
+
+        <!-- <script id="plane" type="text/nunjucks">
+          <a-plane class="link" height="1" width="1"
+                   material="color: red"></a-plane>
+        </script> -->
+
       </a-assets>
 
       <!-- Sky. -->
@@ -44,13 +50,26 @@
             bmfont-text="text: LASER EYE BEAM SIMULATOR">
           </a-entity>
 
-          <a-plane id="start" class="button" position="0 0 0.25" width="1" height="0.2"
-            color="cyan" opacity="0.5" onclick="startRound();">
-            <a-entity id="button-text" position="-0.4 -0.035 0.1"
+          <a-entity id="upper-text" position="-0.9 0.3 0.05"
+            scale="0.5 0.5 0.5" color="#fff" opacity="0.2" align="left"
+            bmfont-text="text: > START ROUND?">
+          </a-entity>
+
+          <a-plane id="prompt" class="option" position="0 -0.3 0.05" width="1.75" height="0.2"
+            color="cyan" opacity="0.5" onclick="startRound();" visible="true">
+
+            <a-entity id="prompt-text" position="-0.8 -0.025 0.05"
               scale="0.5 0.5 0.5" color="#fff" opacity="0.2" align="center"
-              bmfont-text="text: >> START ROUND">
+              bmfont-text="text: >> YES">
             </a-entity>
+
+            <a-entity id="prompt-cursor" position="-0.5 -0.025 0.05"
+              scale="0.5 0.5 0.5" color="#fff" opacity="0.2" align="center"
+              bmfont-text="text: _" visible="true">
+            </a-entity>
+
           </a-plane>
+
         </a-plane>
 
 

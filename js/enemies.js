@@ -16,17 +16,6 @@ var PAWN_ENTITY = document.getElementById("enemy-pawns");
 // // enemy entity for "ORBITERS"
 // var ORBITER_ENTITY = document.getElementById("enemy-orbiters");
 
-// global vars for actual list of PAWNS to iterate through
-var NUM_OF_PAWNS = 5;
-var PAWNS_LEFT = NUM_OF_PAWNS; // redundant?
-var SPAWN_RADIUS = 10;
-var THETA_RANGE = [0, 2*Math.PI];
-var PHI_RANGE = [Math.PI/4, Math.PI/2];
-
-// global vars for setting up movement interval
-var COUNTDOWN = 5000;
-var MOVEMENT_PULSE = 1000;
-
 class Pawn {
   constructor(element, countdown, movement) {
     this.element = element;
@@ -105,25 +94,22 @@ function partlyRandomSpawnPoint(radius, theta, phi_range) {
 // uses vector, distance, unitVector, addVector from game-math.js
 
 // start incremental interval movement after a timeout
-function advancePawns(pawns, countdown, step_pulse) {
+function advancePawns(pawns, step_pulse) {
   // iterates through list of pawns once
   pawns.forEach(function(element) {
     // sets interval for each pawn
     // moving pawn a step on each interval
-
-    setTimeout(function() { // possibly later set in own function that returns the timeout for a single element
-      console.log("start");
-      // able to take damage after countdown, but not before
-      element.setAttribute("onclick", "takeDamage(this)");
-      // element.addEventListener("click", takeDamage);
-      var movement = setInterval(function() { // begin movement AND ALSO FIX THIS
-        stepPawnForward(element);
-        if (shieldDetection(element)) {
-            clearInterval(movement);
-            console.log("stopped moving");
-        }; // closing if statement
-      }, step_pulse); // closing setInterval
-    }, countdown); // closing setTimeout
+    console.log("start");
+    // able to take damage after countdown, but not before
+    element.setAttribute("onclick", "takeDamage(this)");
+    // element.addEventListener("click", takeDamage);
+    var movement = setInterval(function() { // begin movement AND ALSO FIX THIS
+      stepPawnForward(element);
+      if (shieldDetection(element)) {
+          clearInterval(movement);
+          console.log("shields hit");
+      }; // closing if statement
+    }, step_pulse); // closing setInterval
   });
 } // closing function
 
@@ -158,7 +144,7 @@ function takeDamage(element) {
   clearInterval(); // remove movement interval
 
   var flash_pulse = 300;
-  var flash = flashDamageAnimation(element, flash_pulse);
+  var flash = flashAnimation(element, flash_pulse);
   document.getElementById("explosion").play();
   setTimeout(function() {
     clearInterval(flash); // stop thing
@@ -169,7 +155,7 @@ function takeDamage(element) {
 
 }
 
-function flashDamageAnimation(element, flash_pulse) {
+function flashAnimation(element, flash_pulse) {
   return setInterval(function() {
     toggleVisible(element);
   }, flash_pulse);
