@@ -15,16 +15,16 @@ var SOUND_ROUNDOVER = document.getElementById("roundover");
 function bestScores(scores) {
   // returns index of max score
   var max = scores[0];
-  var winners = [0];
+  var winners = [1];
   if (scores.length === 1) {
     return winners;
   } else {
     for (var i=1; i<scores.length; i++) {
       if (scores[i] === max) {
-        winners.push(i);
+        winners.push(i+1);
       } else if (scores[i] > max) {
         max = scores[i];
-        winners = [i];
+        winners = [i+1];
       }
     }
     return winners;
