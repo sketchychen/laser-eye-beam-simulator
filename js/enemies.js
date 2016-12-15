@@ -15,16 +15,6 @@ var SOUND_EXPLOSION = document.getElementById("explosion");
 var PAWN_ENTITY = document.getElementById("enemy-pawns");
 // var ORBITER_ENTITY = document.getElementById("enemy-orbiters");
 
-
-class Enemy {
-  constructor(type, element, moveInterval) {
-    this.type = type;
-    this.element = element;
-    this.moveInterval = moveInterval;
-  }
-}
-
-
 /* -------------------------------------- ENEMY ELEMENT CREATION AND SPAWNING */
 // uses sphericalToCartesian, randRange from game-math.js
 // PAWNS represent enemies with the most basic movements (moving directly toward player)
@@ -56,8 +46,8 @@ function createEnemyElement(type_name, shape, depth, color, spawnXYZ, entity) {
   // creates a single enemy element with enemy class
   // appends it to respective enemy a-entity (for organized HTML structure)
   var element = document.createElement("a-"+shape);
-  element.className = "enemy"
-  element.className += " " + type_name;
+  element.className = "clickable"
+  element.className += " enemy " + type_name;
   element.setAttribute("depth", depth);
   element.setAttribute("color", color);
   element.setAttribute("position", spawnXYZ.join(" "));
@@ -93,29 +83,37 @@ function partlyRandomSpawnPoint(radius, theta, phi_range) {
 /* ----------------------------------------------------------- ENEMY MOVEMENT */
 // uses vector, distance, unitVector, addVector from game-math.js
 
-// start incremental interval movement after a timeout
-function advancePawns(pawns, step_pulse) {
-  // iterates through list of pawns once, sets interval for each pawn to move on each step
-  // pawns.forEach(function(element) {
-  for (var i=0; i<pawns.length; i++) {
-    var pawn_element = pawns[i]; // temporarily save current element for next line of code
+class Enemy {
+  constructor(type, element, moveInterval) {
+    this.type = type;
+    this.element = element;
+    this.moveInterval = moveInterval;
+  }
+}
+
+function objectifyEnemies(enemy_list, type) {
+  for (var i=0; i<enemy_list.length; i++) {
+    var enemy_element = enemy_list[i]; // temporarily save current element for next line of code
 
     // overwrite index space with Class object
-    pawns[i] = new Enemy("Pawn", pawn_element);
-    pawns[i].moveInterval = movementInterval(pawns[i], step_pulse)
+    enemy_list[i] = new Enemy(type, enemy_element);
+  }
+  return enemy_list;
+}
 
+// start incremental interval movement
+function advancePawns(pawn_class_list, step_pulse) {
+  pawn_class_list.forEach(function(pawn_class_obj) {
+    pawn_class_obj.moveInterval = pawnInterval(pawn_class_obj, step_pulse);
     console.log("start");
-
-    // able to take damage after countdown, but not before
-    pawns[i].element.setAttribute("onclick", "takeDamage(this)");
-
-  };
+    pawn_class_obj.element.setAttribute("onclick", "takeDamage(this)");
+  });
 } // closing function
 
-function movementInterval(enemyClassObj, step_pulse) {
+function pawnInterval(pawn_class_obj, step_pulse) {
   return setInterval(function() { // begin movement AND ALSO FIX THIS
-    stepPawnForward(enemyClassObj.element);
-    if (destinationDetection(enemyClassObj.element)) {
+    stepPawnForward(pawn_class_obj.element);
+    if (destinationDetection(pawn_class_obj.element)) {
         endRound();
     }; // closing if statement
   }, step_pulse); // closing setInterval
@@ -153,6 +151,12 @@ function remotelyClearInterval(enemyList, element) {
 function remotelyClearAllIntervals(enemyList) {
   enemyList.forEach(function(object) {
     clearInterval(object.moveInterval);
+  })
+}
+
+function remotelyClearAllOnclickAttribute(enemyList) {
+  enemyList.forEach(function(object) {
+    object.element.removeAttribute("onclick");
   })
 }
 

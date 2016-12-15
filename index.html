@@ -10,7 +10,10 @@
 
     <!-- A-Frame scripts not made by me. -->
       <!-- this makes the magic happen. -->
-    <script src="https://aframe.io/releases/0.3.2/aframe.min.js"></script>
+    <script src="https://rawgit.com/aframevr/aframe/917c06889ee1f3f79b7b1bbd9eab9815f9512503/dist/aframe.min.js"></script>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <script src="https://npmcdn.com/aframe-event-set-component@3.0.1"></script>
+    <script src="https://npmcdn.com/aframe-animation-component@3.0.1"></script>
       <!-- this makes text magic happen. -->
     <script src="https://rawgit.com/bryik/aframe-bmfont-text-component/master/dist/aframe-bmfont-text-component.min.js"></script>
       <!-- this makes a ground happen? -->
@@ -21,9 +24,7 @@
     <a-scene>
       <a-assets>
         <!-- Images. -->
-        <img id="metal_grill" src="assets/metal_grill.jpg">
         <img id="platform" src="assets/metal-texture.jpg">
-        <img id="shield" src="assets/hexagon-pattern.png">
         <img id="city" src="assets/city.jpg">
 
         <!-- Audio. -->
@@ -74,7 +75,7 @@
           </a-entity>
 
           <!-- Prompt entities. -->
-          <a-plane id="prompt" class="option" position="0 -0.3 0.05" width="1.75" height="0.2"
+          <a-plane id="prompt" class="option clickable" position="0 -0.3 0.05" width="1.75" height="0.2"
             color="cyan" opacity="0.5" onclick="startRound();" visible="true">
 
             <a-entity id="prompt-text" position="-0.8 -0.025 0.05"
@@ -91,12 +92,6 @@
 
         </a-plane>
 
-
-
-        <!-- <a-entity id="lower-text" position="0 0 0" scale="0.5 0.5 0.5" color="#ffffff" opacity="0.2" align="center"
-          bmfont-text="text: YES">
-        </a-entity> -->
-
       </a-entity>
 
       <a-entity id="enemies">
@@ -106,27 +101,24 @@
         </a-entity>
       </a-entity>
 
-      <a-entity id="player" collider-check>
-        <!-- <a-entity raycaster="objects: .collidable" position="0 -0.9 0" rotation="90 0 0"></a-entity> -->
-      </a-entity>
-      <!-- <a-entity class="collidable" geometry="primitive: box" position="1 0 0"></a-entity> -->
 
-      <!-- <a-entity id="crows-nest">
-        <a-cone id="platform" position="0 0 0" radius-bottom="2", radius-top="1.5" height="0.5" src="#platform"></a-cone>
-        <a-sphere id="shield" position="0 0 0" rotation="90 0 0" radius="3" color="blue" side="double" opacity="0.4" src="#shield">
-          <a-animation easing="linear" attribute="rotation" dur="100000" to="0 360 0" repeat="indefinite"></a-animation></a-animation>
-        </a-sphere>
-      </a-entity> -->
+      <a-entity id="crows-nest">
+        <a-cone id="platform" color="gray" class="not-clickable" position="0 0 0" radius-bottom="2", radius-top="1.5" height="0.5" src="#platform"></a-cone>
+        <!-- <a-sphere id="shield" class="not-clickable" position="0 0 0" rotation="0 0 0" radius="3" side="double" opacity="0.8" src="#shield"> -->
+          <!-- <a-animation easing="linear" attribute="rotation" dur="100000" to="0 360 0" repeat="indefinite"></a-animation></a-animation> -->
+        </a-cone>
+      </a-entity>
 
       <!-- <a-entity ground></a-entity> -->
 
+      <a-entity camera look-controls wasd-controls position="0 1.7 0">
+        <a-cursor id="cursor"
+          event-set__1="_event: mouseenter; color: red"
+          event-set__2="_event: mouseleave; color: green"
+          raycaster="objects: .clickable"></a-cursor>
+      </a-entity>
 
-      <a-camera position="0 1.68 0">
-        <a-cursor color="#549234">
-          <a-animation begin="hovering" easing="ease-in" attribute="scale" fill="forwards" from=".5 .5 .5" to="0.1 0.1 0.1" dur="1000">
-           </a-animation>
-         </a-cursor>
-      </a-camera>
+
     </a-scene>
 
     <script src="js/game-mathematics.js"></script> <!-- loads calculations made for the game -->

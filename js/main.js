@@ -1,33 +1,12 @@
-// AFRAME.registerComponent('scale-on-click', {
-//   schema: {
-//     to: {default: '2 2 2'}
-//   },
-//   init: function () {
-//     var data = this.data;
-//     this.el.addEventListener('click', function () {
-//       this.setAttribute('scale', data.to);
-//     });
-//   }
-// });
-//
-// AFRAME.registerComponent('collider-check', {
-//   dependencies: ['raycaster'],
-//   init: function () {
-//     this.el.addEventListener('raycaster-intersected', function () {
-//       console.log('Player hit something!');
-//     });
-//   }
-// });
-
 // startRound countdown
 var COUNTDOWN = 5000;
 
 /* ENEMY GLOBAL VARIABLES */
 // number of pawns, where they spawn
-var NUM_OF_PAWNS = 5
+var NUM_OF_PAWNS = 10
 var PAWNS_LEFT = NUM_OF_PAWNS; // redundant?
 var PAWNS = [];
-var SPAWN_RADIUS = 10;
+var SPAWN_RADIUS = 20;
 var THETA_RANGE = [0, 2*Math.PI];
 var PHI_RANGE = [Math.PI/4, Math.PI/2];
 
@@ -70,7 +49,10 @@ function startRound() {
   PAWNS = [];
 
   /* SPAWNING ENEMIES */
+  // first generate list of elements
   PAWNS = spawnPawnsPartlyRandomly(NUM_OF_PAWNS, SPAWN_RADIUS, THETA_RANGE, PHI_RANGE);
+  // convert list of elements to list of class objects
+  PAWNS = objectifyEnemies(PAWNS);
 
   /* COUNT DOWN TO DO THE THINGS */
   var count = COUNTDOWN/1000;
@@ -82,9 +64,11 @@ function startRound() {
   }, COUNTDOWN+1000); // close timeout
 
   /* IN THE MEANWHILE, COUNTDOWN ON MENU */
+  bmfontTextSet(TEXT_LINE[1], "DESTROY THE " + NUM_OF_PAWNS + " BOXES");
+  bmfontTextSet(TEXT_LINE[2], "BEFORE THEY REACH YOU.")
   bmfontTextSet(TEXT_LINE[0], "PLAYER " + (CURRENT_PLAYER+1));
   var counting = setInterval(function(){
-    bmfontTextSet(TEXT_LINE[1], "BEGIN ROUND IN " + count);
+    bmfontTextSet(TEXT_LINE[3], "BEGIN ROUND IN " + count);
     count--;
   }, 1000) // close setInterval
 
@@ -93,6 +77,7 @@ function startRound() {
 
 function endRound() {
   remotelyClearAllIntervals(PAWNS);
+  remotelyClearAllOnclickAttribute(PAWNS);
   console.log("reached player");
   SOUND_ROUNDOVER.play()
   setTimeout(function() {
@@ -106,6 +91,7 @@ function endRound() {
     nextPlayer(); // update current player
     setTimeout(function() { // prompt user to hand off to next player
       if (CURRENT_PLAYER < NUM_OF_PLAYERS) {
+        clearRemainingEnemies(PAWN_ENTITY);
         bmfontTextSet(TEXT_LINE[2], "PLEASE HAND VISOR TO PLAYER " + (CURRENT_PLAYER+1));
         setTimeout(function () {
           bmfontTextSet(TEXT_LINE[3], "PLAYER " + (CURRENT_PLAYER+1) + ", ARE YOU READY?");
@@ -126,6 +112,7 @@ function endRound() {
 }
 
 function endGame() {
+  clearRemainingEnemies(PAWN_ENTITY);
   var winners = bestScores(SCORES);
   console.log(winners); // add one to each number
   bmfontTextSet(TEXT_LINE[2], "YAY FOR PLAYER " + winners.join(" and ") + ".");
