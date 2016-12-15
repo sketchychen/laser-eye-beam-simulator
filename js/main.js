@@ -4,7 +4,7 @@ var COUNTDOWN = 5000;
 /* ENEMY GLOBAL VARIABLES */
 // number of pawns, where they spawn
 var NUM_OF_PAWNS = 10
-var PAWNS_LEFT = NUM_OF_PAWNS; // redundant?
+var PAWNS_LEFT = NUM_OF_PAWNS;
 var PAWNS = [];
 var SPAWN_RADIUS = 20;
 var THETA_RANGE = [0, 2*Math.PI];
@@ -15,7 +15,7 @@ var MOVEMENT_PULSE = 1000;
 
 /* PLAYER GLOBAL VARIABLES */
 // scores, hit box radius
-var ORIGIN = [0, 0, 0]; // opting to not have the enemies to go for the player's head at [0, 1.68, 0]
+var ORIGIN = [0, 0, 0]; // opting to not have the enemies to go for the player's head where the camera is
 var PLAYER_RADIUS = 2;
 var NUM_OF_PLAYERS = 2;
 var CURRENT_PLAYER = 0; // cycles through using nextPlayer()

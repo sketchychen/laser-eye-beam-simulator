@@ -103,8 +103,10 @@ function objectifyEnemies(enemy_list, type) {
 
 // start incremental interval movement
 function advancePawns(pawn_class_list, step_pulse) {
+  var i=0;
   pawn_class_list.forEach(function(pawn_class_obj) {
-    pawn_class_obj.moveInterval = pawnInterval(pawn_class_obj, step_pulse);
+    setTimeout(function() { pawn_class_obj.moveInterval = pawnInterval(pawn_class_obj, step_pulse); }, 1000*i)
+    i++;
     console.log("start");
     pawn_class_obj.element.setAttribute("onclick", "takeDamage(this)");
   });
