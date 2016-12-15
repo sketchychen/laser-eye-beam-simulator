@@ -45,7 +45,7 @@ var SCORES = arrayOfZeroes(NUM_OF_PLAYERS);
 
 function resetGame() {
   /* PLAYER RESET */
-  SCORES = arrayOfZeroes;
+  SCORES = arrayOfZeroes(NUM_OF_PLAYERS);
   CURRENT_PLAYER = 0;
 
   /* ENEMY RESET */
@@ -66,6 +66,7 @@ function startRound() {
   toggleVisible(PROMPT);
   clearAllScreenText();
   clearRemainingEnemies(PAWN_ENTITY);
+  PAWNS_LEFT = NUM_OF_PAWNS;
   PAWNS = [];
 
   /* SPAWNING ENEMIES */
@@ -125,8 +126,9 @@ function endRound() {
 }
 
 function endGame() {
-  var winner = maxScore(SCORES);
-  bmfontTextSet(TEXT_LINE[2], "PLAYER " + winner + " WINS.");
+  var winners = bestScores(SCORES);
+  console.log(winners); // add one to each number
+  bmfontTextSet(TEXT_LINE[2], "YAY FOR PLAYER " + winners.join(" and ") + ".");
   setTimeout(function () {
     bmfontTextSet(TEXT_LINE[3], "RESET GAME?");
     PROMPT.setAttribute("onclick", "resetGame();")
