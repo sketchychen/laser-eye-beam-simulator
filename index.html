@@ -29,6 +29,7 @@
         <img id="city" src="assets/city.jpg">
 
         <!-- Audio. -->
+        <audio id="click" src="assets/191757__fins__button-8.wav"></audio>
         <audio id="ready" src="assets/361254__japanyoshithegamer__8-bit-countdown-ready.wav">
         <audio id="go" src="assets/361253__japanyoshithegamer__8-bit-countdown-go.wav">
         <audio id="bgm" src="assets/339124__zagi2__gaming-arcade-loop.wav" loop>
@@ -80,7 +81,12 @@
 
           <!-- Prompt entities. -->
           <a-plane id="prompt" class="option clickable" position="0 -0.3 0.05" width="1.75" height="0.2"
-            color="cyan" opacity="0.5" onclick="startRound();" visible="true">
+            color="cyan" opacity="0.5" onclick="startRound();" visible="true"
+            event-set__1="_event: mousedown; scale: 1 1 1"
+            event-set__2="_event: mouseup; scale: 1.05 1.05 1"
+            event-set__3="_event: mouseenter; scale: 1.05 1.05 1"
+            event-set__4="_event: mouseleave; scale: 1 1 1"
+            sound="on: click; src: #click">
 
             <a-entity id="prompt-text" position="-0.8 -0.025 0.05"
               scale="0.5 0.5 0.5" color="#fff" opacity="0.2" align="center"
@@ -91,6 +97,7 @@
               scale="0.5 0.5 0.5" color="#fff" opacity="0.2" align="center"
               bmfont-text="text: _" visible="true">
             </a-entity>
+
 
           </a-plane>
 
