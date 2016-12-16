@@ -7,7 +7,7 @@ var NUM_OF_PAWNS = 10
 var PAWNS_LEFT = NUM_OF_PAWNS;
 var PAWNS = [];
 var SPAWN_RADIUS = 20;
-var THETA_RANGE = [0, 2*Math.PI];
+var THETA_RANGE = [Math.PI, 3*Math.PI];
 var PHI_RANGE = [Math.PI/4, Math.PI/2];
 
 // global vars for setting up movement interval
@@ -58,6 +58,7 @@ function startRound() {
   var count = COUNTDOWN/1000;
   var start_everything = setTimeout(function(){
     clearInterval(counting);
+    document.getElementById("chime").play();
     clearAllScreenText();
     toggleVisible(MENU_ENTITY);
     advancePawns(PAWNS, MOVEMENT_PULSE); // pawns, move out!
@@ -68,6 +69,7 @@ function startRound() {
   bmfontTextSet(TEXT_LINE[2], "BEFORE THEY REACH YOU.")
   bmfontTextSet(TEXT_LINE[0], "PLAYER " + (CURRENT_PLAYER+1));
   var counting = setInterval(function(){
+    document.getElementById("blip").play();
     bmfontTextSet(TEXT_LINE[3], "BEGIN ROUND IN " + count);
     count--;
   }, 1000) // close setInterval
