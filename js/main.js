@@ -21,6 +21,9 @@ var NUM_OF_PLAYERS = 2;
 var CURRENT_PLAYER = 0; // cycles through using nextPlayer()
 var SCORES = arrayOfZeroes(NUM_OF_PLAYERS);
 
+var AUDIO_READY = document.getElementById("ready");
+var AUDIO_GO = document.getElementById("go");
+var AUDIO_BGM = document.getElementById("bgm");
 
 function resetGame() {
   /* PLAYER RESET */
@@ -58,10 +61,11 @@ function startRound() {
   var count = COUNTDOWN/1000;
   var start_everything = setTimeout(function(){
     clearInterval(counting);
-    document.getElementById("chime").play();
+    document.getElementById("go").play();
     clearAllScreenText();
     toggleVisible(MENU_ENTITY);
     advancePawns(PAWNS, MOVEMENT_PULSE); // pawns, move out!
+    AUDIO_BGM.play();
   }, COUNTDOWN+1000); // close timeout
 
   /* IN THE MEANWHILE, COUNTDOWN ON MENU */
@@ -69,7 +73,7 @@ function startRound() {
   bmfontTextSet(TEXT_LINE[2], "BEFORE THEY REACH YOU.")
   bmfontTextSet(TEXT_LINE[0], "PLAYER " + (CURRENT_PLAYER+1));
   var counting = setInterval(function(){
-    document.getElementById("blip").play();
+    document.getElementById("ready").play();
     bmfontTextSet(TEXT_LINE[3], "BEGIN ROUND IN " + count);
     count--;
   }, 1000) // close setInterval
@@ -78,6 +82,7 @@ function startRound() {
 }
 
 function endRound() {
+  AUDIO_BGM.pause();
   remotelyClearAllIntervals(PAWNS);
   remotelyClearAllOnclickAttribute(PAWNS);
   console.log("reached player");

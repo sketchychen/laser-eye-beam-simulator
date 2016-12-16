@@ -9,7 +9,7 @@
   // bullet+collision physics
   // enemy HP
 
-var SOUND_EXPLOSION = document.getElementById("explosion");
+var AUDIO_EXPLOSION = document.getElementById("explosion");
 
 // collecting <a-entity>'s to which to append enemies of respective type
 var PAWN_ENTITY = document.getElementById("enemy-pawns");
@@ -171,7 +171,7 @@ function takeDamage(element) {
   var flash = flashAnimation(element, flash_pulse);
   tallyScore(CURRENT_PLAYER); // mark one for the player
   PAWNS_LEFT--; // keep track of how many are left
-  SOUND_EXPLOSION.play();
+  AUDIO_EXPLOSION.play();
 
   setTimeout(function() {
     clearInterval(flash); // stop thing
